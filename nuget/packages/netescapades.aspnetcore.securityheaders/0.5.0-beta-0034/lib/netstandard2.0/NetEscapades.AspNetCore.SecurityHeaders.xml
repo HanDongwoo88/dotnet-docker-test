@@ -1,0 +1,1096 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NetEscapades.AspNetCore.SecurityHeaders</name>
+    </assembly>
+    <members>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersMiddleware">
+            <summary>
+            An ASP.NET Core middleware for adding security headers.
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ICustomHeaderService,NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ICustomHeaderPolicyProvider,System.String)">
+            <summary>
+            Instantiates a new <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersMiddleware"/>.
+            </summary>
+            <param name="next">The next middleware in the pipeline.</param>
+            <param name="service">An instance of <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ICustomHeaderService"/>.</param>
+            <param name="policyProvider">A policy provider which can get a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection"/>.</param>
+            <param name="policyName">An optional name of the policy to be fetched..</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ICustomHeaderService,NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            Instantiates a new <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersMiddleware"/>.
+            </summary>
+            <param name="next">The next middleware in the pipeline.</param>
+            <param name="service">An instance of <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ICustomHeaderService"/>.</param>
+            <param name="policy">A <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection"/> containing the policies to be applied.</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersMiddleware.Invoke(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Invoke the middleware
+            </summary>
+            <param name="context">The current context</param>
+            <returns></returns>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ContentSecurityPolicyHeader">
+            <summary>
+            The header value to use for Content-SecurityHeader
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ContentSecurityPolicyHeader.#ctor(System.String,System.Boolean)">
+            <summary>
+            Create a new policy
+            </summary>
+            <param name="asReportOnly">If true, the header is added as report only</param>
+            <param name="value">The value to apply for the header</param>
+        </member>
+        <member name="P:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ContentSecurityPolicyHeader.Header">
+            <inheritdoc />
+        </member>
+        <member name="P:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ContentSecurityPolicyHeader.ReportOnly">
+            <summary>
+            If true, the CSP header is addded as "Content-Security-Policy-Report-Only".
+            If false, it's set to "Content-Security-Policy";
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ContentSecurityPolicyHeader.Build(System.Action{NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspBuilder},System.Boolean)">
+            <summary>
+            Configure a content security policy
+            </summary>
+            <param name="configure">Configure the CSP</param>
+            <param name="asReportOnly">If true, the header is added as report only</param>
+            <returns></returns>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ConnectSourceDirectiveBuilder">
+            <summary>
+            The connect-src directive restricts the URLs which can be loaded using script interfaces
+            The APIs that are restricted are:  &lt;a&gt; ping, Fetch, XMLHttpRequest, WebSocket, and EventSource.
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspBuilder.AddDefaultSrc">
+            <summary>
+            The default-src directive serves as a fallback for the other CSP fetch directives.
+            Valid sources include 'self', 'unsafe-inline', 'unsafe-eval', 'none', scheme such as http:,
+            or internet hosts by name or IP address, as well as an optional URL scheme and/or port number. 
+            The site's address may include an optional leading wildcard (the asterisk character, '*'), and 
+            you may use a wildcard (again, '*') as the port number, indicating that all legal ports are valid for the source.
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspBuilder.AddConnectSrc">
+            <summary>
+            The connect-src directive restricts the URLs which can be loaded using script interfaces
+            The APIs that are restricted are:  &lt;a&gt; ping, Fetch, XMLHttpRequest, WebSocket, and EventSource.
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspBuilder.AddFontSrc">
+            <summary>
+            The font-src directive specifies valid sources for fonts loaded using @font-face.
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspBuilder.AddObjectSrc">
+            <summary>
+            The object-src directive specifies valid sources for the &lt;object&gt;, &lt;embed&gt;, and &lt;applet&gt; elements
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspBuilder.AddFormAction">
+            <summary>
+            The form-action directive restricts the URLs which can be used as the target of a form submissions from a given context
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspBuilder.AddImgSrc">
+            <summary>
+            The img-src directive specifies valid sources of images and favicons
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspBuilder.AddScriptSrc">
+            <summary>
+            The script-src directive specifies valid sources for sources for JavaScript.
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspBuilder.AddStyleSrc">
+            <summary>
+            The style-src directive specifies valid sources for sources for stylesheets.
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspBuilder.AddMediaSrc">
+            <summary>
+            The media-src directive specifies valid sources for loading media using the &lt;audio&gt; and &lt;video&gt; elements
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspBuilder.AddFrameAncestors">
+            <summary>
+            The frame-ancestors directive specifies valid parents that may embed a page using 
+            &lt;frame&gt;, &lt;iframe&gt;, &lt;object&gt;, &lt;embed&gt;, or &lt;applet&gt;.
+            Setting this directive to 'none' is similar to X-Frame-Options: DENY (which is also supported in older browers).
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspBuilder.AddFrameSource">
+            <summary>
+            The frame-src directive specifies valid sources for nested browsing contexts loading 
+            using elements such as  &lt;frame&gt; and  &lt;iframe&gt;
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspBuilder.AddUpgradeInsecureRequests">
+            <summary>
+            The upgrade-insecure-requests directive instructs user agents to treat all of a 
+            site's insecure URLs (those served over HTTP) as though they have been 
+            replaced with secure URLs (those served over HTTPS). This directive is 
+            intended for web sites with large numbers of insecure legacy URLs that need to be rewritten.
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspBuilder.AddReportUri">
+            <summary>
+            The upgrade-insecure-requests directive instructs user agents to treat all of a 
+            site's insecure URLs (those served over HTTP) as though they have been 
+            replaced with secure URLs (those served over HTTPS). This directive is 
+            intended for web sites with large numbers of insecure legacy URLs that need to be rewritten.
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspBuilder.AddCustomDirective(System.String)">
+            <summary>
+            Create a custom CSP directive for an un-implemented directive
+            </summary>
+            <param name="directive">The directive name, e.g. default-src</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspBuilder.AddCustomDirective(System.String,System.String)">
+            <summary>
+            Create a custom CSP directive for an un-implemented directive
+            </summary>
+            <param name="directive">The directive name, e.g. default-src</param>
+            <param name="value">The directive value</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspDirectiveBuilderExtensions.Self``1(``0)">
+            <summary>
+            Allow sources from the origin from which the protected document is being served, including the same URL scheme and port number
+            </summary>
+            <returns>The CSP builder for method chaining</returns>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspDirectiveBuilderExtensions.Blob``1(``0)">
+            <summary>
+            Allows blob: URIs to be used as a content source
+            </summary>
+            <returns>The CSP builder for method chaining</returns>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspDirectiveBuilderExtensions.Data``1(``0)">
+            <summary>
+            data: Allows data: URIs to be used as a content source. 
+            WARNING: This is insecure; an attacker can also inject arbitrary data: URIs. Use this sparingly and definitely not for scripts.
+            </summary>
+            <returns>The CSP builder for method chaining</returns>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspDirectiveBuilderExtensions.None``1(``0)">
+            <summary>
+            Block the resource (Refers to the empty set; that is, no URLs match)
+            </summary>
+            <returns>The CSP builder for method chaining</returns>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspDirectiveBuilderExtensions.From``1(``0,System.String)">
+            <summary>
+            Allow resources from the given <paramref name="uri"/>. May be any non-empty value
+            </summary>
+            <param name="builder">The builder instance</param>
+            <param name="uri">The URI to allow.</param>
+            <returns>The CSP builder for method chaining</returns>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspDirectiveBuilderExtensions.OverHttps``1(``0)">
+            <summary>
+            Allow resources served over https
+            </summary>
+            <returns>The CSP builder for method chaining</returns>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspDirectiveBuilderExtensions.WithHash``1(``0,System.String,System.String)">
+            <summary>
+            A sha256, sha384 or sha512 hash of scripts or styles. 
+            Allow sources that match the provided hash.
+            </summary>
+            <param name="builder">The builder instance</param>
+            <param name="algorithm">The hash algorithm - one of sha256, sha384 or sha512 </param>
+            <param name="hash">The hash for the source</param>
+            <returns>The CSP builder for method chaining</returns>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspDirectiveBuilderExtensions.WithHash256``1(``0,System.String)">
+            <summary>
+            A sha256 hash of scripts or styles. 
+            Allow sources that match the provided hash.
+            </summary>
+            <param name="builder">The builder instance</param>
+            <param name="hash">The hash for the source</param>
+            <returns>The CSP builder for method chaining</returns>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspDirectiveBuilderExtensions.WithHashSha384``1(``0,System.String)">
+            <summary>
+            A sha384 hash of scripts or styles. 
+            Allow sources that match the provided hash.
+            </summary>
+            <param name="builder">The builder instance</param>
+            <param name="hash">The hash for the source</param>
+            <returns>The CSP builder for method chaining</returns>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspDirectiveBuilderExtensions.WithHashSha512``1(``0,System.String)">
+            <summary>
+            A sha512 hash of scripts or styles. 
+            Allow sources that match the provided hash.
+            </summary>
+            <param name="builder">The builder instance</param>
+            <param name="hash">The hash for the source</param>
+            <returns>The CSP builder for method chaining</returns>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomDirective">
+            <summary>
+            Create a custom CSP directive for an un-implemented directive
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomDirective.#ctor(System.String,System.String)">
+            <summary>
+            Create a custom CSP directive for an un-implemented directive
+            </summary>
+            <param name="directive">The directive name, e.g. default-src</param>
+            <param name="value">The directive value</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomDirective.#ctor(System.String)">
+            <summary>
+            Create a custom CSP directive for an un-implemented directive
+            </summary>
+            <param name="directive">The directive name, e.g. default-src</param>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.DefaultSourceDirectiveBuilder">
+            <summary>
+            The default-src directive serves as a fallback for the other CSP fetch directives.
+            Valid sources include 'self', 'unsafe-inline', 'unsafe-eval', 'none', scheme such as http:,
+            or internet hosts by name or IP address, as well as an optional URL scheme and/or port number. 
+            The site's address may include an optional leading wildcard (the asterisk character, '*'), and 
+            you may use a wildcard (again, '*') as the port number, indicating that all legal ports are valid for the source.
+            </summary>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.FontSourceDirectiveBuilder">
+            <summary>
+            The font-src directive specifies valid sources for fonts loaded using @font-face.
+            </summary>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.FormActionDirectiveBuilder">
+            <summary>
+            The form-action directive restricts the URLs which can be used as the target of a form submissions from a given context
+            </summary>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.FrameAncestorsDirectiveBuilder">
+            <summary>
+            The frame-ancestors directive specifies valid parents that may embed a page using 
+            &lt;frame&gt;, &lt;iframe&gt;, &lt;object&gt;, &lt;embed&gt;, or &lt;applet&gt;.
+            Setting this directive to 'none' is similar to X-Frame-Options: DENY (which is also supported in older browers).
+            </summary>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.FrameSourceDirectiveBuilder">
+            <summary>
+            The frame-src directive specifies valid sources for nested browsing contexts loading 
+            using elements such as  &lt;frame&gt; and  &lt;iframe&gt;
+            </summary>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ImageSourceDirectiveBuilder">
+            <summary>
+            The img-src directive specifies valid sources of images and favicons
+            </summary>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.MediaSourceDirectiveBuilder">
+            <summary>
+            The media-src directive specifies valid sources for loading media using the &lt;audio&gt; and &lt;video&gt; elements
+            </summary>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ObjectSourceDirectiveBuilder">
+            <summary>
+            The object-src directive specifies valid sources for the &lt;object&gt;, &lt;embed&gt;, and &lt;applet&gt; elements
+            </summary>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ReportUriDirectiveBuilder">
+            <summary>
+            The report-uri directive instructs the user agent to report attempts to
+            violate the Content Security Policy. These violation reports consist of 
+            JSON documents sent via an HTTP POST request to the specified URI.
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ReportUriDirectiveBuilder.To(System.String)">
+            <summary>
+            The Uri where to post the report.
+            </summary>
+            <param name="uri">The URI to post the report to.</param>
+            <returns>Nothing, as can't be chained</returns>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ScriptSourceDirectiveBuilder">
+            <summary>
+            The script-src directive specifies valid sources for sources for JavaScript.
+            This includes not only URLs loaded directly into &lt;script&gt; elements, but also things
+            like inline script event handlers (onclick) and XSLT stylesheets which can trigger script execution.
+            </summary>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.StyleSourceDirectiveBuilder">
+            <summary>
+            The style-src directive specifies valid sources for sources for stylesheets.
+            </summary>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.UpgradeInsecureRequestsDirectiveBuilder">
+            <summary>
+            The upgrade-insecure-requests directive instructs user agents to treat all of a 
+            site's insecure URLs (those served over HTTP) as though they have been 
+            replaced with secure URLs (those served over HTTPS). This directive is 
+            intended for web sites with large numbers of insecure legacy URLs that need to be rewritten.
+            </summary>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeader">
+            <summary>
+            An arbitrary custom header class for applying header values
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeader.#ctor(System.String,System.String)">
+            <summary>
+            Create a new instance of the custom header
+            </summary>
+            <param name="header">The string value of the header</param>
+            <param name="value">The value to apply for the header</param>
+        </member>
+        <member name="P:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeader.Header">
+            <inheritdoc />
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.HeaderPolicyBase">
+            <summary>
+            A base implementation of <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.IHeaderPolicy" />
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.HeaderPolicyBase.#ctor(System.String)">
+            <summary>
+            Create a new policy
+            </summary>
+            <param name="value">The value to apply for the header</param>
+        </member>
+        <member name="P:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.HeaderPolicyBase.Header">
+            <inheritdoc />
+        </member>
+        <member name="P:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.HeaderPolicyBase.Value">
+            <inheritdoc />
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.HeaderPolicyBase.Apply(Microsoft.AspNetCore.Http.HttpContext,NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult)">
+            <inheritdoc />
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.HeaderPolicyBase.EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext,NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult)">
+            <summary>
+            Apply the header to the result when the provided <paramref see="context" />  has an insecure request 
+            </summary>
+            <param name="context">The <see cref="T:Microsoft.AspNetCore.Http.HttpContext"/> associated with the current call.</param>
+            <param name="result">The <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult"/> to update.</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.HeaderPolicyBase.EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext,NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult)">
+            <summary>
+            Apply the header to the result when the provided <paramref see="context" />  has an secure request 
+            </summary>
+            <param name="context">The <see cref="T:Microsoft.AspNetCore.Http.HttpContext"/> associated with the current call.</param>
+            <param name="result">The <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult"/> to update.</param>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.HtmlOnlyHeaderPolicyBase">
+            <summary>
+            A base implementation of <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.IHeaderPolicy" /> that only adds the header for text/html responses
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.HtmlOnlyHeaderPolicyBase.#ctor(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.HtmlOnlyHeaderPolicyBase.EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext,NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult)">
+            <inheritdoc />
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.HtmlOnlyHeaderPolicyBase.EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext,NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult)">
+            <inheritdoc />
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.IHeaderPolicy">
+            <summary>
+            An interface that defines a custom header
+            </summary>
+        </member>
+        <member name="P:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.IHeaderPolicy.Header">
+            <summary>
+            The header value of the policy
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.IHeaderPolicy.Value">
+            <summary>
+            The value to set for the header
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.IHeaderPolicy.Apply(Microsoft.AspNetCore.Http.HttpContext,NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult)">
+            <summary>
+            Apply the header to the result given the provided context  
+            </summary>
+            <param name="context">The <see cref="T:Microsoft.AspNetCore.Http.HttpContext"/> associated with the current call.</param>
+            <param name="result">The <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult"/> to update.</param>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ReferrerPolicyHeader">
+            <summary>
+            The header value to use for ReferrerPolicy
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ReferrerPolicyHeader.#ctor(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="P:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ReferrerPolicyHeader.Header">
+            <inheritdoc />
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ReferrerPolicyHeader.None">
+            <summary>
+            Indicates that the site doesn't want to set a Referrer Policy 
+            here and the browser should fallback to a Referrer Policy defined 
+            via other mechanisms elsewhere
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ReferrerPolicyHeader.NoReferrer">
+            <summary>
+            Instructs the browser to never send the referrer header with requests 
+            that are made from your site. This also include links to pages on your own site.
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ReferrerPolicyHeader.NoReferrerWhenDowngrade">
+            <summary>
+            The browser will not send the referrer header when navigating from HTTPS to HTTP, 
+            but will always send the full URL in the referrer header when navigating 
+            from HTTP to any origin.
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ReferrerPolicyHeader.SameOrigin">
+            <summary>
+            The browser will only set the referrer header on requests to the same origin. 
+            If the destination is another origin then no referrer information will be sent.
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ReferrerPolicyHeader.Origin">
+            <summary>
+            The browser will always set the referrer header to the origin from which the request was made. 
+            This will strip any path information from the referrer information.
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ReferrerPolicyHeader.StrictOrigin">
+            <summary>
+            The browser will always set the referrer header to the origin from which the request was made, as
+            long as the destination is HTTPS, otherwise no refer will not be sent. 
+            This will strip any path information from the referrer information.
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ReferrerPolicyHeader.OriginWhenCrossOrigin">
+            <summary>
+            The browser will send the full URL to requests to the same origin but 
+            only send the origin when requests are cross-origin.
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ReferrerPolicyHeader.StrictOriginWhenCrossOrigin">
+            <summary>
+            The browser will send the full URL to requests to the same origin but 
+            only send the origin when requests are cross-origin, as long as a scheme
+            downgrade has not happened (i.e. you are not moving from HTTPS to HTTP)
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ReferrerPolicyHeader.UnsafeUrl">
+            <summary>
+            The browser will always send the full URL with any request to any origin.
+            </summary>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.RemoveCustomHeader">
+            <summary>
+            Header value for Server header
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.RemoveCustomHeader.#ctor(System.String)">
+            <summary>
+            /// Create a new instance of the remove custom header policy
+            </summary>
+            <param name="header">The string value of the header to remove</param>
+        </member>
+        <member name="P:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.RemoveCustomHeader.Header">
+            <inheritdoc />
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.RemoveCustomHeader.EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext,NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult)">
+            <inheritdoc />
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.RemoveCustomHeader.EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext,NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult)">
+            <inheritdoc />
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ServerHeader">
+            <summary>
+            Header value for Server header
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ServerHeader.#ctor(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="P:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ServerHeader.Header">
+            <inheritdoc />
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ServerHeader.Remove">
+            <summary>
+            Removes the server header from the response
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ServerHeader.EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext,NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult)">
+            <inheritdoc />
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ServerHeader.EvaluateHttpsRequest(Microsoft.AspNetCore.Http.HttpContext,NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult)">
+            <inheritdoc />
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.StrictTransportSecurityHeader">
+            <summary>
+            The header value to use for Strict-Transport-Security
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.StrictTransportSecurityHeader.#ctor(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="F:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.StrictTransportSecurityHeader.OneYearInSeconds">
+            <summary>
+            The number of seconds in one year
+            </summary>
+        </member>
+        <member name="P:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.StrictTransportSecurityHeader.Header">
+            <inheritdoc />
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.StrictTransportSecurityHeader.MaxAge(System.Int32)">
+            <summary>
+            Tells the user-agent to cache the domain in the STS list for the provided number of seconds {0} 
+            </summary>
+            <param name="maxAgeInSeconds">The maimum number of seconds to cache the domain</param>
+            <returns></returns>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.StrictTransportSecurityHeader.MaxAgeIncludeSubdomains(System.Int32)">
+            <summary>
+            Tells the user-agent to cache the domain in the STS list for the provided number of seconds {0} and include any sub-domains. 
+            </summary>
+            <param name="maxAgeInSeconds">The maimum number of seconds to cache the domain</param>
+            <returns></returns>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.StrictTransportSecurityHeader.NoCache">
+            <summary>
+            Tells the user-agent to remove, or not cache the host in the STS cache. 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.StrictTransportSecurityHeader.EvaluateHttpRequest(Microsoft.AspNetCore.Http.HttpContext,NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult)">
+            <inheritdoc />
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.XContentTypeOptionsHeader">
+            <summary>
+            The header value to use for X-Content-Type-Options
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.XContentTypeOptionsHeader.#ctor(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="P:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.XContentTypeOptionsHeader.Header">
+            <inheritdoc />
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.XContentTypeOptionsHeader.NoSniff">
+            <summary>
+            Disables content sniffing
+            </summary>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.XFrameOptionsHeader">
+            <summary>
+            The header value to use for X-Frame-Options
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.XFrameOptionsHeader.#ctor(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="P:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.XFrameOptionsHeader.Header">
+            <inheritdoc />
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.XFrameOptionsHeader.Deny">
+            <inheritdoc />
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.XFrameOptionsHeader.SameOrigin">
+            <inheritdoc />
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.XFrameOptionsHeader.AllowFromUri(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.XssProtectionHeader">
+            <summary>
+            The header value to use for XSS-Protection
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.XssProtectionHeader.#ctor(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="P:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.XssProtectionHeader.Header">
+            <inheritdoc />
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.XssProtectionHeader.Enabled">
+            <summary>
+            Enables the XSS Protections
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.XssProtectionHeader.Disabled">
+            <summary>
+            Disables the XSS Protections offered by the user-agent.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.XssProtectionHeader.Block">
+            <summary>
+            Enables XSS protections and instructs the user-agent to block the response in the event that script has been inserted from user input, instead of sanitizing.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.XssProtectionHeader.Report(System.String)">
+            <summary>
+            A partially supported directive that tells the user-agent to report potential XSS attacks to a single URL. Data will be POST'd to the report URL in JSON format. 
+            {0} specifies the report url, including protocol 
+            </summary>
+            <param name="reportingUrl">The url to report to</param>
+            <returns></returns>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeaderOptions">
+            <summary>
+            Provides programmatic configuration for Security Headers.
+            </summary>
+        </member>
+        <member name="P:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeaderOptions.PolicyCollections">
+            <summary>
+            The collections of policies to apply
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeaderOptions.DefaultPolicyName">
+            <summary>
+            The name of the default policy
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeaderOptions.GetPolicy(System.String)">
+            <summary>
+            Gets the policy based on the <paramref name="name"/>
+            </summary>
+            <param name="name">The name of the policy to lookup.</param>
+            <returns>The <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection"/> if the policy was added.<c>null</c> otherwise.</returns>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeaderService">
+            <summary>
+            Default implementation of <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ICustomHeaderService"/>.
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeaderService.EvaluatePolicy(Microsoft.AspNetCore.Http.HttpContext,NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            Evaluates the given <paramref name="policies"/> using the passed in <paramref name="context"/>.
+            </summary>
+            <param name="context">The <see cref="T:Microsoft.AspNetCore.Http.HttpContext"/> associated with the call.</param>
+            <param name="policies">The <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection"/> containing policies to be evaluated.</param>
+            <returns>A <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult"/> which contains the result of policy evaluation and can be
+            used by the caller to set appropriate response headers.</returns>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeaderService.ApplyResult(Microsoft.AspNetCore.Http.HttpResponse,NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult)">
+            <summary>
+            Adds and removes the required headers to the given <paramref name="response"/>.
+            </summary>
+            <param name="response">The <see cref="T:Microsoft.AspNetCore.Http.HttpResponse"/> associated with the current call.</param>
+            <param name="result">The <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult"/> used to read the allowed values.</param>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult">
+            <summary>
+            Results returned by <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ICustomHeaderService"/> 
+            </summary>
+        </member>
+        <member name="P:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult.SetHeaders">
+            <summary>
+            A dictionary of Header, Value pairs that should be added to the request
+            </summary>
+        </member>
+        <member name="P:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult.RemoveHeaders">
+            <summary>
+            A hashset of Headers that should be removed from the request
+            </summary>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.DefaultCustomHeaderPolicyProvider">
+            <summary>
+            A type which can provide a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection"/> for a particular <see cref="T:Microsoft.AspNetCore.Http.HttpContext"/>.
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.DefaultCustomHeaderPolicyProvider.#ctor(Microsoft.Extensions.Options.IOptions{NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeaderOptions})">
+            <summary>
+            Creates a new instance of the <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeaderOptions"/>
+            </summary>
+            <param name="options">The option model representing <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeaderOptions"/></param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.DefaultCustomHeaderPolicyProvider.GetPolicyAsync(Microsoft.AspNetCore.Http.HttpContext,System.String)">
+            <summary>
+            Gets a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection"/> from the given <paramref name="context"/>
+            </summary>
+            <param name="context">The <see cref="T:Microsoft.AspNetCore.Http.HttpContext"/> associated with this call.</param>
+            <param name="policyName">An optional policy name to look for.</param>
+            <returns>A <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection"/></returns>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ICustomHeaderPolicyProvider">
+            <summary>
+            A type which can provide a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection"/> for a particular <see cref="T:Microsoft.AspNetCore.Http.HttpContext"/>.
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ICustomHeaderPolicyProvider.GetPolicyAsync(Microsoft.AspNetCore.Http.HttpContext,System.String)">
+            <summary>
+            Gets a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection"/> from the given <paramref name="context"/>
+            </summary>
+            <param name="context">The <see cref="T:Microsoft.AspNetCore.Http.HttpContext"/> associated with this call.</param>
+            <param name="policyName">An optional policy name to look for.</param>
+            <returns>A <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection"/></returns>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ICustomHeaderService">
+            <summary>
+            A type which can evaluate a policy for a particular <see cref="T:Microsoft.AspNetCore.Http.HttpContext"/>.
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ICustomHeaderService.EvaluatePolicy(Microsoft.AspNetCore.Http.HttpContext,NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            Evaluates the given <paramref name="policies"/> using the passed in <paramref name="context"/>.
+            </summary>
+            <param name="context">The <see cref="T:Microsoft.AspNetCore.Http.HttpContext"/> associated with the call.</param>
+            <param name="policies">The <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection"/> containing policies to be evaluated.</param>
+            <returns>A <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult"/> which contains the result of policy evaluation and can be
+            used by the caller to set appropriate response headers.</returns>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ICustomHeaderService.ApplyResult(Microsoft.AspNetCore.Http.HttpResponse,NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult)">
+            <summary>
+            Adds and removes the required headers to the given <paramref name="response"/>.
+            </summary>
+            <param name="response">The <see cref="T:Microsoft.AspNetCore.Http.HttpResponse"/> associated with the current call.</param>
+            <param name="result">The <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersResult"/> used to read the allowed values.</param>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeadersMiddleware">
+            <summary>
+            An ASP.NET Core middleware for adding security headers.
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeadersMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate,NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ICustomHeaderService,NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            Instantiates a new <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeadersMiddleware"/>.
+            </summary>
+            <param name="next">The next middleware in the pipeline.</param>
+            <param name="service">An instance of <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ICustomHeaderService"/>.</param>
+            <param name="policy">A <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection"/> containing the policies to be applied.</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.SecurityHeadersMiddleware.Invoke(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Invoke the middleware
+            </summary>
+            <param name="context">The current context</param>
+            <returns></returns>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection">
+            <summary>
+            Defines the policies to use for customising security headers for a request.
+            </summary>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollectionExtensions">
+            <summary>
+            Utility class exposing common extension methods
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollectionExtensions.ApplyPolicy(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection,NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.IHeaderPolicy)">
+            <summary>
+            Add the policy to the policy collection
+            </summary>
+            <param name="policies"></param>
+            <param name="policy"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollectionExtensions.AddDefaultSecurityHeaders(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            Add default headers in accordance with the most secure approach
+            </summary>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.ContentSecurityPolicyHeaderExtensions">
+            <summary>
+            Extension methods for adding a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ContentSecurityPolicyHeader" /> to a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection" />
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.ContentSecurityPolicyHeaderExtensions.AddContentSecurityPolicy(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection,System.Action{NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspBuilder},System.Boolean)">
+            <summary>
+            Add a Content-Security-Header to all requests
+            </summary>
+            <param name="policies">The collection of policies</param>
+            <param name="configure">Configure the CSP</param>
+            <param name="asReportOnly">If true, the CSP header is addded as "Content-Security-Policy-Report-Only". If false, it's set to "Content-Security-Policy";</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.ContentSecurityPolicyHeaderExtensions.AddContentSecurityPolicyReportOnly(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection,System.Action{NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CspBuilder})">
+            <summary>
+            Add a Content-Security-Header-Report-Only to all requests
+            </summary>
+            <param name="policies">The collection of policies</param>
+            <param name="configure">Configure the CSP</param>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.CustomHeaderExtensions">
+            <summary>
+            Extension methods for adding a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeader" /> to a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection" />
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.CustomHeaderExtensions.AddCustomHeader(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection,System.String,System.String)">
+            <summary>
+            Add a custom header to all requests
+            </summary>
+            <param name="policies">The collection of policies</param>
+            <param name="header">The header value to use</param>
+            <param name="value">The value to set for the given header</param>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.ReferrerPolicyHeaderExtensions">
+            <summary>
+            Extension methods for adding a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ReferrerPolicyHeader" /> to a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection" />
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.ReferrerPolicyHeaderExtensions.AddReferrerPolicyNone(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            Indicates that the site doesn't want to set a Referrer Policy 
+            here and the browser should fallback to a Referrer Policy defined 
+            via other mechanisms elsewhere
+            </summary>
+            <param name="policies">The collection of policies</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.ReferrerPolicyHeaderExtensions.AddReferrerPolicyNoReferrer(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            Instructs the browser to never send the referrer header with requests 
+            that are made from your site. This also include links to pages on your own site.
+            </summary>
+            <param name="policies">The collection of policies</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.ReferrerPolicyHeaderExtensions.AddReferrerPolicyNoReferrerWhenDowngrade(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            The browser will not send the referrer header when navigating from HTTPS to HTTP, 
+            but will always send the full URL in the referrer header when navigating 
+            from HTTP to any origin.
+            </summary>
+            <param name="policies">The collection of policies</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.ReferrerPolicyHeaderExtensions.AddReferrerPolicySameOrigin(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            The browser will only set the referrer header on requests to the same origin. 
+            If the destination is another origin then no referrer information will be sent.
+            </summary>
+            <param name="policies">The collection of policies</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.ReferrerPolicyHeaderExtensions.AddReferrerPolicyOrigin(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            The browser will always set the referrer header to the origin from which the request was made. 
+            This will strip any path information from the referrer information.
+            </summary>
+            <param name="policies">The collection of policies</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.ReferrerPolicyHeaderExtensions.AddReferrerPolicyStrictOrigin(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            The browser will always set the referrer header to the origin from which the request was made, as
+            long as the destination is HTTPS, otherwise no refer will not be sent. 
+            This will strip any path information from the referrer information.
+            </summary>
+            <param name="policies">The collection of policies</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.ReferrerPolicyHeaderExtensions.AddReferrerPolicyOriginWhenCrossOrigin(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            The browser will send the full URL to requests to the same origin but 
+            only send the origin when requests are cross-origin.
+            </summary>
+            <param name="policies">The collection of policies</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.ReferrerPolicyHeaderExtensions.AddReferrerPolicyStrictOriginWhenCrossOrigin(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            The browser will send the full URL to requests to the same origin but 
+            only send the origin when requests are cross-origin, as long as a scheme
+            downgrade has not happened (i.e. you are not moving from HTTPS to HTTP)
+            </summary>
+            <param name="policies">The collection of policies</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.ReferrerPolicyHeaderExtensions.AddReferrerPolicyUnsafeUrl(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            The browser will always send the full URL with any request to any origin.
+            </summary>
+            <param name="policies">The collection of policies</param>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.RemoveCustomHeaderExtensions">
+            <summary>
+            Extension methods for adding a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ServerHeader" /> to a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection" />
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.RemoveCustomHeaderExtensions.RemoveCustomHeader(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection,System.String)">
+            <summary>
+            Remove a custom header from all requests
+            </summary>
+            <param name="policies">The collection of policies</param>
+            <param name="header">The header value to remove</param>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.ServerHeaderExtensions">
+            <summary>
+            Extension methods for adding a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.ServerHeader" /> to a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection" />
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.ServerHeaderExtensions.RemoveServerHeader(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            Removes the Server header from all responses
+            </summary>
+            <param name="policies">The collection of policies</param>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.StrictTransportSecurityHeaderExtensions">
+            <summary>
+            Extension methods for adding a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.StrictTransportSecurityHeader" /> to a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection" />
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.StrictTransportSecurityHeaderExtensions.AddStrictTransportSecurityMaxAge(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection,System.Int32)">
+            <summary>
+            Add Strict-Transport-Security max-age=<see paramref="maxAge"/> to all requests.
+            Tells the user-agent to cache the domain in the STS list for the number of seconds provided.
+            </summary>
+            <param name="policies">The collection of policies</param>
+            <param name="maxAge">The maximum number of seconds to cache the domain</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.StrictTransportSecurityHeaderExtensions.AddStrictTransportSecurityMaxAgeIncludeSubDomains(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection,System.Int32)">
+            <summary>
+            Add Strict-Transport-Security max-age=<see paramref="maxAge"/>; includeSubDomains to all requests.
+            Tells the user-agent to cache the domain in the STS list for the number of seconds provided and include any sub-domains.
+            </summary>
+            <param name="policies">The collection of policies</param>
+            <param name="maxAge">The maximum number of seconds to cache the domain</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.StrictTransportSecurityHeaderExtensions.AddStrictTransportSecurityNoCache(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            Add Strict-Transport-Security max-age=0 to all requests.
+            Tells the user-agent to remove, or not cache the host in the STS cache
+            </summary>
+            <param name="policies">The collection of policies</param>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.XContentTypeOptionsHeaderExtensions">
+            <summary>
+            Extension methods for adding a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.XContentTypeOptionsHeader" /> to a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection" />
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.XContentTypeOptionsHeaderExtensions.AddContentTypeOptionsNoSniff(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            Add X-Content-Type-Options nosniff to all requests.
+            Can be set to protect against MIME type confusion attacks.
+            </summary>
+            <param name="policies">The collection of policies</param>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.XFrameOptionsHeaderExtensions">
+            <summary>
+            Extension methods for adding a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.XFrameOptionsHeader" /> to a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection" />
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.XFrameOptionsHeaderExtensions.AddFrameOptionsDeny(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            Add X-Frame-Options DENY to all requests.
+            The page cannot be displayed in a frame, regardless of the site attempting to do so
+            </summary>
+            <param name="policies">The collection of policies</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.XFrameOptionsHeaderExtensions.AddFrameOptionsSameOrigin(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            Add X-Frame-Options SAMEORIGIN to all requests.
+            The page can only be displayed in a frame on the same origin as the page itself.
+            </summary>
+            <param name="policies">The collection of policies</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.XFrameOptionsHeaderExtensions.AddFrameOptionsSameOrigin(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection,System.String)">
+            <summary>
+            Add X-Frame-Options ALLOW-FROM {uri} to all requests, where the uri is provided
+            The page can only be displayed in a frame on the specified origin.
+            </summary>
+            <param name="policies">The collection of policies</param>
+            <param name="uri">The uri of the origin in which the page may be displayed in a frame</param>
+        </member>
+        <member name="T:NetEscapades.AspNetCore.SecurityHeaders.XssProtectionHeaderExtensions">
+            <summary>
+            Extension methods for adding a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.XssProtectionHeader" /> to a <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection" />
+            </summary>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.XssProtectionHeaderExtensions.AddXssProtectionEnabled(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            Add X-XSS-Protection 1 to all requests.
+            Enables the XSS Protections
+            </summary>
+            <param name="policies">The collection of policies</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.XssProtectionHeaderExtensions.AddXssProtectionDisabled(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            Add X-XSS-Protection 0 to all requests.
+            Disables the XSS Protections offered by the user-agent.
+            </summary>
+            <param name="policies">The collection of policies</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.XssProtectionHeaderExtensions.AddXssProtectionBlock(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            Add X-XSS-Protection 1; mode=block to all requests.
+            Enables XSS protections and instructs the user-agent to block the response in the event that script has been inserted from user input, instead of sanitizing.
+            </summary>
+            <param name="policies">The collection of policies</param>
+        </member>
+        <member name="M:NetEscapades.AspNetCore.SecurityHeaders.XssProtectionHeaderExtensions.AddXssProtectionReport(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection,System.String)">
+            <summary>
+            Add X-XSS-Protection 1; report=http://site.com/report to all requests.
+            A partially supported directive that tells the user-agent to report potential XSS attacks to a single URL. Data will be POST'd to the report URL in JSON format.
+            </summary>
+            <param name="policies">The collection of policies</param>
+            <param name="reportUrl">The url to report potential XSS attacks to</param>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Builder.CustomHeadersMiddlewareExtensions">
+            <summary>
+            The <see cref="T:Microsoft.AspNetCore.Builder.IApplicationBuilder"/> extensions for adding Security headers middleware support.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.CustomHeadersMiddlewareExtensions.UseCustomHeadersMiddleware(Microsoft.AspNetCore.Builder.IApplicationBuilder,System.String)">
+            <summary>
+            Adds middleware to your web application pipeline to automatically add security headers to requests
+            </summary>
+            <param name="app">The IApplicationBuilder passed to your Configure method</param>
+            <param name="policyName">The policy name of a configured policy.</param>
+            <returns>The original app parameter</returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.CustomHeadersMiddlewareExtensions.UseCustomHeadersMiddleware(Microsoft.AspNetCore.Builder.IApplicationBuilder,NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            Adds middleware to your web application pipeline to automatically add security headers to requests
+            </summary>
+            <param name="app">The IApplicationBuilder passed to your Configure method.</param>
+            <param name="policies">A configured policy collection.</param>
+            <returns>The original app parameter</returns>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Builder.SecurityHeadersMiddlewareExtensions">
+            <summary>
+            The <see cref="T:Microsoft.AspNetCore.Builder.IApplicationBuilder"/> extensions for adding Security headers middleware support.
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.SecurityHeadersMiddlewareExtensions.UseSecurityHeaders(Microsoft.AspNetCore.Builder.IApplicationBuilder,NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)">
+            <summary>
+            Adds middleware to your web application pipeline to automatically add security headers to requests
+            </summary>
+            <param name="app">The IApplicationBuilder passed to your Configure method.</param>
+            <param name="policies">A configured policy collection.</param>
+            <returns>The original app parameter</returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.SecurityHeadersMiddlewareExtensions.UseSecurityHeaders(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            Adds middleware to your web application pipeline to automatically add security headers to requests
+            
+            Adds a policy collection configured using the default security headers, as in <see cref="M:NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollectionExtensions.AddDefaultSecurityHeaders(NetEscapades.AspNetCore.SecurityHeaders.HeaderPolicyCollection)"/>
+            </summary>
+            <param name="app">The IApplicationBuilder passed to your Configure method.</param>
+            <returns>The original app parameter</returns>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.CustomHeadersServiceCollectionExtensions">
+            <summary>
+            Extension methods for setting up security header services in an <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection" />.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.CustomHeadersServiceCollectionExtensions.AddCustomHeaders(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds security header services to the specified <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection" />.
+            </summary>
+            <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection" /> to add services to.</param>
+            <returns>The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> so that additional calls can be chained.</returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.CustomHeadersServiceCollectionExtensions.AddCustomHeaders(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeaderOptions})">
+            <summary>
+            Adds security header services to the specified <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection" />.
+            </summary>
+            <param name="services">The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection" /> to add services to.</param>
+            <param name="setupAction">An <see cref="T:System.Action`1"/> to configure the provided <see cref="T:NetEscapades.AspNetCore.SecurityHeaders.Infrastructure.CustomHeaderOptions"/>.</param>
+            <returns>The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> so that additional calls can be chained.</returns>
+        </member>
+    </members>
+</doc>
