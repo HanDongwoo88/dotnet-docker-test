@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  optdocker:
+    image: ${DOCKER_REGISTRY-}optdocker
+    build:
+      context: .
+      dockerfile: /Dockerfile
