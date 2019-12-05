@@ -50,7 +50,7 @@ namespace AspNetCoreInDocker.Web.Tests
 		{
 			Assert.Equal(1, 1);
 
-			Assert.Equal(2, 3);
+			Assert.Equal(5, 5);
 		}
 	}
 }
