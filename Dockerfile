@@ -5,7 +5,7 @@ WORKDIR /sln
 COPY ./aspnetcore-in-docker.sln ./NuGet.config  ./
 COPY ./nuget/packages ./nuget/packages
 
-# 더 빠른 빌드를 위해 모든 csproj 파일을 복사하고 복원하여 레이어를 캐시 asdasad
+# 더 빠른 빌드를 위해 모든 csproj 파일을 복사하고 복원하여 레이어를 캐시
 # dotnet_build.sh 스크립트는 어쨌든 이것을 수행하므로 불필요하지만 도커는 중간 이미지를 캐시하여 더 빠르게 빌드 한다.
 COPY ./src/AspNetCoreInDocker.Lib/AspNetCoreInDocker.Lib.csproj  ./src/AspNetCoreInDocker.Lib/AspNetCoreInDocker.Lib.csproj
 COPY ./src/AspNetCoreInDocker.Web/AspNetCoreInDocker.Web.csproj  ./src/AspNetCoreInDocker.Web/AspNetCoreInDocker.Web.csproj
