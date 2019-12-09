@@ -68,5 +68,13 @@ namespace AspNetCoreInDocker.Web.Tests
 
 			Assert.Equal(5, 5);
 		}
+
+		[Fact]
+		public void Test10()
+		{
+			Assert.Equal(1, 1);
+
+			Assert.Equal(5, 5);
+		}
 	}
 }
