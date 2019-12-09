@@ -24,7 +24,7 @@ namespace AspNetCoreInDocker.Web.Controllers
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "Your contact page test";
 
             return View();
         }
