@@ -16,7 +16,10 @@ COPY ./test ./test
 COPY ./src ./src
 RUN dotnet build -c Release --no-restore
 
-RUN dotnet test "./test/AspNetCoreInDocker.Web.Tests/AspNetCoreInDocker.Web.Tests.csproj" -c Release --no-build --no-restore --test-adapter-path:. --logger "xunit;LogFileName=result.xml"
+RUN dotnet test "./test/AspNetCoreInDocker.Web.Tests/AspNetCoreInDocker.Web.Tests.csproj" --results-directory "../../testresults" --logger "trx;LogFileName=test_results.xml"
+
+WORKDIR /sln
+COPY ./ ./testresults 
 
 RUN dotnet publish "./src/AspNetCoreInDocker.Web/AspNetCoreInDocker.Web.csproj" -c Release -o "../../dist" --no-restore 
 #commit test
@@ -24,4 +27,6 @@ RUN dotnet publish "./src/AspNetCoreInDocker.Web/AspNetCoreInDocker.Web.csproj" 
 FROM microsoft/aspnetcore:2.0.3
 WORKDIR /app
 COPY --from=builder /sln/dist .
+COPY --from=builder /sln/testresults/test_results.xml .
+
 ENTRYPOINT ["dotnet", "AspNetCoreInDocker.Web.dll"]
