@@ -16,7 +16,7 @@ COPY ./test ./test
 COPY ./src ./src
 RUN dotnet build -c Release --no-restore
 
-RUN dotnet test "./test/AspNetCoreInDocker.Web.Tests/AspNetCoreInDocker.Web.Tests.csproj" --results-directory "../../testresults" --logger "trx;LogFileName=test_results.xml"
+RUN dotnet test "./test/AspNetCoreInDocker.Web.Tests/AspNetCoreInDocker.Web.Tests.csproj" --results-directory "../../test_results" --logger "trx;LogFileName=result.xml"
 
 WORKDIR /sln
 COPY ./ ./testresults 
@@ -27,6 +27,6 @@ RUN dotnet publish "./src/AspNetCoreInDocker.Web/AspNetCoreInDocker.Web.csproj" 
 FROM microsoft/aspnetcore:2.0.3
 WORKDIR /app
 COPY --from=builder /sln/dist .
-COPY --from=builder /sln/testresults/test_results.xml jenkinsindocker:/var/jenkins_home/workspace/docker-test
+COPY --from=builder /sln/testresults/test_results.xml /var/jenkins_home/workspace/docker-test
 
 ENTRYPOINT ["dotnet", "AspNetCoreInDocker.Web.dll"]
