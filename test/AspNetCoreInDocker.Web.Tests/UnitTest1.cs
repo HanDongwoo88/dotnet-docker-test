@@ -96,7 +96,7 @@ namespace AspNetCoreInDocker.Web.Tests
 		[Fact]
 		public void FailTest1()
 		{
-			Assert.Equal(1, 1);
+			Assert.Equal(1, 10);
 		}
 	}
 }
