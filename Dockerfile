@@ -27,6 +27,5 @@ RUN dotnet publish "./src/AspNetCoreInDocker.Web/AspNetCoreInDocker.Web.csproj" 
 FROM microsoft/aspnetcore:2.0.3
 WORKDIR /app
 COPY --from=builder /sln/dist .
-COPY --from=builder /sln/test_results /var/jenkins_home/workspace/docker-test
 
 ENTRYPOINT ["dotnet", "AspNetCoreInDocker.Web.dll"]
