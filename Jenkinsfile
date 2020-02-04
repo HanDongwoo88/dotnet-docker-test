@@ -19,7 +19,7 @@ podTemplate(
 		}
 
 		//-- 환경변수 파일 읽어서 변수값 셋팅
-		def props = readProperties  file:"deployment/pipeline.properties"
+		def props = readProperties  file:"pipeline.properties"
 		def tag = props["version"]
 		def dockerRegistry = props["dockerRegistry"]
 		def credential_registry=props["credential_registry"]
@@ -35,7 +35,7 @@ podTemplate(
 			stage("Build Microservice image") {
 				container("docker") {
 					docker.withRegistry("${dockerRegistry}", "${credential_registry}") {
-						sh "docker build -f ./deployment/Dockerfile -t ${image}:${tag} ."
+						sh "docker build -f ./Dockerfile -t ${image}:${tag} ."
 						sh "docker push ${image}:${tag}"
 						sh "docker tag ${image}:${tag} ${image}:latest"
 						sh "docker push ${image}:latest"
