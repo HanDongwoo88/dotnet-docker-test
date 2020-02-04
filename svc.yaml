@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-devops
+spec:
+  type: NodePort
+  selector:
+    appname: devops
+  ports:
+    - name: port-devops
+      port: 8090
+      targetPort: 8081
