@@ -1,5 +1,6 @@
 # Build image
-FROM microsoft/dotnet:2.0.3-sdk as builder
+# FROM microsoft/dotnet:2.0.3-sdk AS builder
+FROM microsoft/dotnet:2.0.3-sdk
 WORKDIR /sln
 
 COPY ./aspnetcore-in-docker.sln ./NuGet.config  ./
@@ -19,10 +20,11 @@ RUN dotnet build -c Release --no-restore
 #RUN dotnet test "./test/AspNetCoreInDocker.Web.Tests/AspNetCoreInDocker.Web.Tests.csproj" --results-directory "../../test_results" --logger "trx;LogFileName=result.xml"
 
 RUN dotnet publish "./src/AspNetCoreInDocker.Web/AspNetCoreInDocker.Web.csproj" -c Release -o "../../dist" --no-restore 
-#commit test
-#App image
-FROM microsoft/aspnetcore:2.0.3
-WORKDIR /app
-COPY --from=builder /sln/dist .
 
 ENTRYPOINT ["dotnet", "AspNetCoreInDocker.Web.dll"]
+#commit test
+#App image
+#FROM microsoft/aspnetcore:2.0.3
+#WORKDIR /app
+#COPY --from=builder /sln/dist .
+
