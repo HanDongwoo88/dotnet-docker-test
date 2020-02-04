@@ -15,6 +15,7 @@ RUN dotnet restore
 
 COPY ./test ./test
 COPY ./src ./src
+
 RUN dotnet build -c Release --no-restore
 
 #RUN dotnet test "./test/AspNetCoreInDocker.Web.Tests/AspNetCoreInDocker.Web.Tests.csproj" --results-directory "../../test_results" --logger "trx;LogFileName=result.xml"
