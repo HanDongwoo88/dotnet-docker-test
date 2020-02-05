@@ -1,6 +1,6 @@
 # Build image
-# FROM microsoft/dotnet:2.0.3-sdk AS builder
-FROM microsoft/dotnet:2.0.3-sdk
+FROM microsoft/dotnet:2.0.3-sdk AS builder
+#FROM microsoft/dotnet:2.0.3-sdk
 WORKDIR /sln
 
 COPY ./aspnetcore-in-docker.sln ./NuGet.config  ./
