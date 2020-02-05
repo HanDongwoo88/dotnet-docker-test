@@ -22,10 +22,10 @@ RUN dotnet build -c Release --no-restore
 
 RUN dotnet publish "./src/AspNetCoreInDocker.Web/AspNetCoreInDocker.Web.csproj" -c Release -o "../../dist" --no-restore 
 
-ENTRYPOINT ["dotnet", "AspNetCoreInDocker.Web.dll"]
+
 #commit test
 #App image
-#FROM microsoft/aspnetcore:2.0.3
-#WORKDIR /app
-#COPY --from=builder /sln/dist .
-
+FROM microsoft/aspnetcore:2.0.3
+WORKDIR /app
+COPY --from=builder /sln/dist .
+ENTRYPOINT ["dotnet", "AspNetCoreInDocker.Web.dll"]
