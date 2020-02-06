@@ -6,6 +6,7 @@ podTemplate(
 		//container image는 docker search 명령 이용
 		containerTemplate(name: "docker", image: "docker:rc", ttyEnabled: true, command: "cat"),
 		containerTemplate(name: "kubectl", image: "lachlanevenson/k8s-kubectl", command: "cat", ttyEnabled: true)
+        containerTemplate(name: "dotnet", image: "microsoft/dotnet:2.0.3-sdk", command: "cat")
 	],
 	//volume mount
 	volumes: [
@@ -18,13 +19,15 @@ podTemplate(
 			git "https://github.com/HanDongwoo88/dotnet-docker-test.git"
 
 		}
-        stage('Unit Test') {
-            steps{
-                sh "wget -q https://packages.microsoft.com/config/ubuntu/19.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb"
-                sh "sudo dpkg -i packages-microsoft-prod.deb"
-                sh "dotnet test './test/AspNetCoreInDocker.Web.Tests/AspNetCoreInDocker.Web.Tests.csproj' --results-directory './test_results' --logger 'trx;LogFileName=result.xml'"
+        try {
+            stage('Unit Test') {
+                container("dotnet") {
+                    sh "dotnet test './test/AspNetCoreInDocker.Web.Tests/AspNetCoreInDocker.Web.Tests.csproj' --results-directory './test_results' --logger 'trx;LogFileName=result.xml'"
+                }
             }
-        }
+        } catch(e) {
+			currentBuild.result = "TEST FAILED"
+		}
 
 		//-- 환경변수 파일 읽어서 변수값 셋팅
 		def props = readProperties  file:"pipeline.properties"
