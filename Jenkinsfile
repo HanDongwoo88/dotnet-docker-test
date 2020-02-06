@@ -1,4 +1,4 @@
-def label = "devops-${UUID.randomUUID().toString()}"
+def label = "jenkins-slave-${UUID.randomUUID().toString()}"
 
 podTemplate(
 	label: label, 
@@ -70,5 +70,11 @@ podTemplate(
 		} catch(e) {
 			currentBuild.result = "FAILED"
 		}
+
+        post {
+            always {
+            step ([$class: 'MSTestPublisher', testResultsFile:"**/test_results/result.xml", failOnError: true, keepLongStdio: true])
+            }
+        }
 	}
 }
