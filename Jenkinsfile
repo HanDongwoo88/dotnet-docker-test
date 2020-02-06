@@ -23,6 +23,7 @@ podTemplate(
             stage('Unit Test') {
                 container("dotnet") {
                     sh "dotnet test './test/AspNetCoreInDocker.Web.Tests/AspNetCoreInDocker.Web.Tests.csproj' --results-directory './test_results' --logger 'trx;LogFileName=result.xml'"
+                    sh "cat /home/jenkins/agent/workspace/pipeline-devops/test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"                   
                     step ([$class: 'MSTestPublisher', testResultsFile:"**/test_results/result.xml", failOnError: true, keepLongStdio: false])
                 }
             }
