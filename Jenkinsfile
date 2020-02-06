@@ -50,10 +50,10 @@ podTemplate(
 
 			stage( "Deploy to Cluster" ) {
 				container("kubectl") {
-					sh "kubectl apply -n ${namespace} -f ${deployment}"
+					sh "kubectl delete -n ${namespace} -f ${deployment}"
 					sh "sleep 5"
-					sh "kubectl apply -n ${namespace} -f ${service}"
-					sh "kubectl apply -n ${namespace} -f ${ingress}"
+					sh "kubectl delete -n ${namespace} -f ${service}"
+					sh "kubectl delete -n ${namespace} -f ${ingress}"
 				}
 			}
 		} catch(e) {
