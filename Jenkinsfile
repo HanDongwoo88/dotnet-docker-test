@@ -24,11 +24,12 @@ podTemplate(
                 container("dotnet") {
                     sh "dotnet test './test/AspNetCoreInDocker.Web.Tests/AspNetCoreInDocker.Web.Tests.csproj' --results-directory './test_results' --logger 'trx;LogFileName=result.xml'"
                     sh "cat /home/jenkins/agent/workspace/pipeline-devops/test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
-                    sh "cd /home/jenkins/agent/workspace/pipeline-devops/test/AspNetCoreInDocker.Web.Tests/test_results"
-                    sh "ls"
-                    sh "cp result.xml $WORKSPACE"
-                    mstest testResultsFile:"**/test_results/result.xml", keepLongStdio: true
+                    
                 }
+                sh "cd /home/jenkins/agent/workspace/pipeline-devops/test/AspNetCoreInDocker.Web.Tests/test_results"
+                sh "ls"
+                sh "cp result.xml $WORKSPACE"
+                mstest testResultsFile:"**/test_results/result.xml", keepLongStdio: true
             }
         } catch(e) {
 			currentBuild.result = "TEST FAILED"
