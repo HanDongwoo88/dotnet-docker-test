@@ -53,6 +53,7 @@ podTemplate(
 					sh "kubectl apply -n ${namespace} -f ${deployment}"
 					sh "sleep 5"
 					sh "kubectl apply -n ${namespace} -f ${service}"
+                    sh "kubectl apply -n ${namespace} -f ${ingress}"
 				}
 			}
 		} catch(e) {
