@@ -23,7 +23,7 @@ podTemplate(
             stage('Unit Test') {
                 container("dotnet") {
                     sh "dotnet test './test/AspNetCoreInDocker.Web.Tests/AspNetCoreInDocker.Web.Tests.csproj' --results-directory './test_results' --logger 'trx;LogFileName=result.xml'"
-                    mstest testResultsFile:"**/test_results/result.xml", keepLongStdio: true
+                    
                 }
             }
         } catch(e) {
