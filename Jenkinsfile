@@ -25,7 +25,7 @@ podTemplate(
                     sh "dotnet test './test/AspNetCoreInDocker.Web.Tests/AspNetCoreInDocker.Web.Tests.csproj' --results-directory './test_results' --logger 'trx;LogFileName=result.xml'"
                     sh "cat /home/jenkins/agent/workspace/pipeline-devops/test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
 
-                    junit '/home/jenkins/agent/workspace/pipeline-devops/test/AspNetCoreInDocker.Web.Tests/test_results/result.xml'                   
+                    junit '**/test_results/result.xml'                   
                 }
             }
         } catch(e) {
