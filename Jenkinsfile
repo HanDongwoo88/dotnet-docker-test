@@ -70,11 +70,8 @@ podTemplate(
 			}
 		} catch(e) {
 			currentBuild.result = "FAILED"
-		}
-	}
-    post {
-        always {
+		} finally {
             step ([$class: 'MSTestPublisher', testResultsFile:"**/test_results/result.xml", failOnError: true, keepLongStdio: true])
         }
-    }
+	}
 }
