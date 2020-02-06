@@ -16,7 +16,15 @@ podTemplate(
 	node(label) {
 		stage("Get Source") {
 			git "https://github.com/HanDongwoo88/dotnet-docker-test.git"
+
 		}
+        stage('Unit Test') {
+            steps{
+                sh "wget -q https://packages.microsoft.com/config/ubuntu/19.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb"
+                sh "sudo dpkg -i packages-microsoft-prod.deb"
+                sh "dotnet test './test/AspNetCoreInDocker.Web.Tests/AspNetCoreInDocker.Web.Tests.csproj' --results-directory './test_results' --logger 'trx;LogFileName=result.xml'"
+            }
+        }
 
 		//-- 환경변수 파일 읽어서 변수값 셋팅
 		def props = readProperties  file:"pipeline.properties"
