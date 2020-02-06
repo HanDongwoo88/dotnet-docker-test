@@ -24,7 +24,7 @@ podTemplate(
                 container("dotnet") {
                     sh "dotnet test './test/AspNetCoreInDocker.Web.Tests/AspNetCoreInDocker.Web.Tests.csproj' --results-directory './test_results' --logger 'trx;LogFileName=result.xml'"
                     sh "echo ${workspace}"
-                    mstest testResultsFile:"**/test_results/result.xml", keepLongStdio: true
+                    mstest testResultsFile:"${workspace}/test/AspNetCoreInDocker.Web.Tests/test_results/result.xml", keepLongStdio: true
                     sh "cat /home/jenkins/agent/workspace/pipeline-devops/test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
                 }
             }
