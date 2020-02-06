@@ -1,4 +1,4 @@
-def label = "jenkins-slave-${UUID.randomUUID().toString()}"
+def label = "devops-${UUID.randomUUID().toString()}"
 
 podTemplate(
 	label: label, 

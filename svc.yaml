@@ -8,5 +8,5 @@ spec:
     appname: devops
   ports:
     - name: port-devops
-      port: 8090
-      targetPort: 8081
+      port: 8080
+      targetPort: 80
