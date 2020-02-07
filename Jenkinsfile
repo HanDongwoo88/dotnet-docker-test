@@ -99,8 +99,9 @@ podTemplate(
 						sh "helm upgrade ${releaseName} ${helmChartfile}"					
 					} else {
 						echo "Install with chart file !"
-						 sh "helm install ${releaseName} ${helmChartfile} --namespace ${namespace}"	
-                         //sh "helm install ${helmChartfile} --name ${releaseName}" (Helm v2)				
+                        sh "helm install ${helmChartfile} --name ${releaseName}"
+						//sh "helm install ${releaseName} ${helmChartfile} --namespace ${namespace}" (Helm v3)
+                        //sh "helm install ${helmChartfile} --name ${releaseName}" (Helm v2)				
 					}
 				}
 			}
