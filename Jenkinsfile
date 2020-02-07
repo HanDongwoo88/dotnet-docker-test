@@ -78,6 +78,7 @@ podTemplate(
 				container("helm") {
                     // helm repo add
 					echo "Add helm repo"
+                    sh "helm version"
                     sh "helm repo add ${baseDeployDir} ${helmRepositoryURL}"
 
                     //echo "Install with chart file"
