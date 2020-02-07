@@ -79,13 +79,13 @@ podTemplate(
 				container("helm") {
                     sh "helm init"	//tiller 설치
 
+                    // version 확인
+                    sh "helm version"
                     // helm repo add
 					echo "Add helm repo"
-                    sh "helm version"
                     sh "helm repo add ${baseDeployDir} ${helmRepositoryURL}"
                     sh "helm repo update"
                     
-                    /*
                     boolean isExist = false
 					
 					//====== 이미 설치된 chart 인지 검사 =============
@@ -102,17 +102,6 @@ podTemplate(
 						 sh "helm install ${releaseName} ${helmChartfile} --namespace ${namespace}"	
                          //sh "helm install ${helmChartfile} --name ${releaseName}" (Helm v2)				
 					}
-                    */
-                    sh "helm ls -q --namespace default"
-                    try {
-                        sh "helm delete ${releaseName} --purge"	
-					} catch(e) {
-						echo "Clear-up Error : " + e.getMessage()
-						echo "Continue process"	
-					}
-
-                    echo "Install with chart file !"
-					sh "helm install ${helmChartfile} --name ${releaseName}"
 				}
 			}
 		} catch(e) {
