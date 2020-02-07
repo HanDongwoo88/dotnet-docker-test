@@ -69,6 +69,7 @@ podTemplate(
 					try {
                         sh "helm ls"
 						//sh "helm delete ${releaseName} --purge"	
+                        sh "helm uninstall ${releaseName}"	
                         sh "helm delete ${releaseName}"	
 					} catch(e) {
 						echo "Clear-up Error : " + e.getMessage()
