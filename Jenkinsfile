@@ -7,7 +7,7 @@ podTemplate(
 		containerTemplate(name: "docker", image: "docker:rc", ttyEnabled: true, command: "cat"),
 		containerTemplate(name: "kubectl", image: "lachlanevenson/k8s-kubectl", command: "cat", ttyEnabled: true),
         containerTemplate(name: "dotnet", image: "microsoft/dotnet:2.0.3-sdk", command: "cat", ttyEnabled: true),
-        containerTemplate(name: "helm", image: "dtzar/helm-kubectl", ttyEnabled: true, command: "cat")
+        containerTemplate(name: "helm", image: "alpine/helm", ttyEnabled: true, command: "cat")
 	],
 	//volume mount
 	volumes: [
@@ -67,6 +67,7 @@ podTemplate(
 			stage( "Clean Up Existing Deployments" ) {
 				container("helm") {
 					try {
+                        sh "helm ls"
 						//sh "helm delete ${releaseName} --purge"	
                         sh "helm delete ${releaseName}"	
 					} catch(e) {
