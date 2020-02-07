@@ -92,7 +92,7 @@ podTemplate(
 					
 					if (isExist) {
 						echo "Already installed. I will upgrade it with chart file."
-                        sh "helm ls"	
+                        sh "helm ls -q --namespace default"	
 						sh "helm upgrade ${releaseName} ${helmChartfile}"					
 					} else {
 						echo "Install with chart file !"
