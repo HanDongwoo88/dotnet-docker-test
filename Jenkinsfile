@@ -75,11 +75,22 @@ podTemplate(
 				}
 			}
             */
+            stage("Update Helm Chart") {
+                container("helm") {
+                    git "https://github.com/HanDongwoo88/helm-charts.git"
+
+                    sh "ls"
+                    sh "cd ~/helm-charts"
+                    sh "ls"
+                }
+            }
+
 			stage( "Deploy to Cluster" ) {
 				container("helm") {
                     sh "helm init"	//tiller 설치
 
                     // version 확인
+                    echo "Confirm Helm Version"
                     sh "helm version"
                     // helm repo add
 					echo "Add helm repo"
