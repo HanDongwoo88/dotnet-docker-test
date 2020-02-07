@@ -7,7 +7,7 @@ podTemplate(
 		containerTemplate(name: "docker", image: "docker:rc", ttyEnabled: true, command: "cat"),
 		containerTemplate(name: "kubectl", image: "lachlanevenson/k8s-kubectl", command: "cat", ttyEnabled: true),
         containerTemplate(name: "dotnet", image: "microsoft/dotnet:2.0.3-sdk", command: "cat", ttyEnabled: true),
-        containerTemplate(name: "helm", image: "lwolf/helm-kubectl-docker", ttyEnabled: true, command: "cat")
+        containerTemplate(name: "helm", image: "dtzar/helm-kubectl:2.16.1", ttyEnabled: true, command: "cat")
 	],
 	//volume mount
 	volumes: [
@@ -105,14 +105,14 @@ podTemplate(
                     */
                     sh "helm ls -q --namespace default"
                     try {
-                        sh "helm delete ${releaseName}"	
+                        sh "helm delete ${releaseName} --purge"	
 					} catch(e) {
 						echo "Clear-up Error : " + e.getMessage()
 						echo "Continue process"	
 					}
 
                     echo "Install with chart file !"
-					sh "helm install ${releaseName} ${helmChartfile} --namespace ${namespace}"	
+					sh "helm install ${helmChartfile} --name ${releaseName}"
 				}
 			}
 		} catch(e) {
