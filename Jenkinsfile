@@ -3,7 +3,7 @@ def label = "devops-${UUID.randomUUID().toString()}"
 podTemplate(
 	label: label, 
 	containers: [
-		//container image는 docker search 명령 이용
+		//container Template 설정
 		containerTemplate(name: "docker", image: "docker:rc", ttyEnabled: true, command: "cat"),
 		containerTemplate(name: "kubectl", image: "lachlanevenson/k8s-kubectl", command: "cat", ttyEnabled: true),
         containerTemplate(name: "dotnet", image: "microsoft/dotnet:2.0.3-sdk", command: "cat", ttyEnabled: true)
