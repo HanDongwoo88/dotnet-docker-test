@@ -65,7 +65,8 @@ podTemplate(
 			stage( "Clean Up Existing Deployments" ) {
 				container("helm") {
 					try {
-						//sh "helm delete ${releaseName} --purge"		
+						//sh "helm delete ${releaseName} --purge"	
+                        sh "helm delete ${releaseName}"	
 					} catch(e) {
 						echo "Clear-up Error : " + e.getMessage()
 						echo "Continue process"	
@@ -78,7 +79,7 @@ podTemplate(
 					echo "Install with chart file"
                     sh "helm repo add ${baseDeployDir} ${helmRepositoryURL}"
                     sh "helm repo list"
-                    sh "helm install ${releaseName} ${helmChartfile}"
+                    sh "helm install ${releaseName} ${helmChartfile} --namespace ${namespace}"
 					//sh "helm install ${helmChartfile} --name ${releaseName}" (Helm v2)
 				}
 			}
