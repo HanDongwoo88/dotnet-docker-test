@@ -40,7 +40,7 @@ podTemplate(
 		def baseDeployDir = props["baseDeployDir"]
 		def helmRepository = props["helmRepository"]
 		def helmChartname = props["helmChartname"]
-		def helmChartfile = "${baseDeployDir}/${helmChartname}-${tag}.tgz"
+		def helmChartfile = "${baseDeployDir}/${helmChartname}"
 		def releaseName = props["releaseName"]
 		def namespace = props["namespace"]
 
