@@ -84,9 +84,18 @@ podTemplate(
                     sh "ls"
                     sh "helm package dotnet-helm"
                     sh "ls"
+                    sh "cp dotnet-helm-0.1.0.tgz /stable"
+                    
+                    sh "cd stable"
+                    sh "ls"
+                    sh "helm repo index ."
 
                     //git push
-
+                    sh "git config --global user.email jtlas@naver.com"
+                    sh "git config --global user.name HanDongwoo88"
+                    sh "git add ./"
+                    sh "git commit -m 'jenkins helm chart update commit'"
+                    sh "git push origin master"
                 }
             }
 
