@@ -76,7 +76,8 @@ podTemplate(
 			stage( "Deploy to Cluster" ) {
 				container("helm") {
 					echo "Install with chart file"
-                    sh "helm install ${releaseName} ${helmChartfile}"
+                    sh "helm repo list"
+                    //sh "helm install ${releaseName} ${helmChartfile}"
 					//sh "helm install ${helmChartfile} --name ${releaseName}" (Helm v2)
 				}
 			}
