@@ -43,7 +43,7 @@ podTemplate(
 		def helmChartfile = "${baseDeployDir}/${helmChartname}"
 		def releaseName = props["releaseName"]
 		def namespace = props["namespace"]
-
+        def helmRepositoryURL = props["helmRepositoryURL"]
 
 		//def deployment = props["deployment"]
 		//def service = props["service"]
@@ -65,7 +65,7 @@ podTemplate(
 			stage( "Clean Up Existing Deployments" ) {
 				container("helm") {
 					try {
-						sh "helm delete ${releaseName} --purge"		
+						//sh "helm delete ${releaseName} --purge"		
 					} catch(e) {
 						echo "Clear-up Error : " + e.getMessage()
 						echo "Continue process"	
@@ -76,8 +76,9 @@ podTemplate(
 			stage( "Deploy to Cluster" ) {
 				container("helm") {
 					echo "Install with chart file"
+                    sh "helm repo add ${baseDeployDir} ${helmRepositoryURL}"
                     sh "helm repo list"
-                    //sh "helm install ${releaseName} ${helmChartfile}"
+                    sh "helm install ${releaseName} ${helmChartfile}"
 					//sh "helm install ${helmChartfile} --name ${releaseName}" (Helm v2)
 				}
 			}
