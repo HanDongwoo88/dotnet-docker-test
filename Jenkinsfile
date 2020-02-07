@@ -62,6 +62,8 @@ podTemplate(
 					}
 				}
 			}
+            //--- 무중단 배포를 위해 clean up 하지 않음
+			/*
 			stage( "Clean Up Existing Deployments" ) {
 				container("helm") {
 					try {
@@ -73,14 +75,29 @@ podTemplate(
 					}
 				}
 			}
-
+            */
 			stage( "Deploy to Cluster" ) {
 				container("helm") {
+                    // helm repo add
 					echo "Install with chart file"
                     sh "helm repo add ${baseDeployDir} ${helmRepositoryURL}"
                     sh "helm repo list"
-                    sh "helm install ${releaseName} ${helmChartfile} --namespace ${namespace}"
-					//sh "helm install ${helmChartfile} --name ${releaseName}" (Helm v2)
+
+                    boolean isExist = false
+					
+					//====== 이미 설치된 chart 인지 검사 =============
+					String out = sh script: "helm ls -q --namespace ${namespace}", returnStdout: true
+					if(out.contains("${releaseName}")) isExist = true
+					//===========================				
+					
+					if (isExist) {
+						echo "Already installed. I will upgrade it with chart file."
+						sh "helm upgrade ${releaseName} ${helmChartfile}"					
+					} else {
+						echo "Install with chart file !"
+						 sh "helm install ${releaseName} ${helmChartfile} --namespace ${namespace}"	
+                         //sh "helm install ${helmChartfile} --name ${releaseName}" (Helm v2)				
+					}
 				}
 			}
 		} catch(e) {
