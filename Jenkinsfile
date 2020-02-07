@@ -1,4 +1,4 @@
-def label = "helm-devops-${UUID.randomUUID().toString()}"
+def label = "jenkins-slave-${UUID.randomUUID().toString()}"
 
 podTemplate(
 	label: label, 
@@ -92,6 +92,7 @@ podTemplate(
 					
 					if (isExist) {
 						echo "Already installed. I will upgrade it with chart file."
+                        sh "helm ls"	
 						sh "helm upgrade ${releaseName} ${helmChartfile}"					
 					} else {
 						echo "Install with chart file !"
