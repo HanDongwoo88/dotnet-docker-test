@@ -83,8 +83,7 @@ podTemplate(
                     sh "helm repo add ${baseDeployDir} ${helmRepositoryURL}"
                     sh "helm repo list"
 
-                    sh "helm plugin install https://github.com/databus23/helm-diff --version master"
-                    sh "helm delete ${releaseName} --purge"	
+                    sh "helm delete ${releaseName}"	
 
                     boolean isExist = false
 					
