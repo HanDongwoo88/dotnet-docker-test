@@ -83,6 +83,8 @@ podTemplate(
                     sh "helm repo add ${baseDeployDir} ${helmRepositoryURL}"
                     sh "helm repo list"
 
+                    sh "helm delete ${releaseName} --purge"	
+
                     boolean isExist = false
 					
 					//====== 이미 설치된 chart 인지 검사 =============
