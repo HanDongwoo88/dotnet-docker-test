@@ -1,4 +1,4 @@
-def label = "devops-${UUID.randomUUID().toString()}"
+def label = "helm-devops-${UUID.randomUUID().toString()}"
 
 podTemplate(
 	label: label, 
@@ -6,7 +6,8 @@ podTemplate(
 		//container Template 설정
 		containerTemplate(name: "docker", image: "docker:rc", ttyEnabled: true, command: "cat"),
 		containerTemplate(name: "kubectl", image: "lachlanevenson/k8s-kubectl", command: "cat", ttyEnabled: true),
-        containerTemplate(name: "dotnet", image: "microsoft/dotnet:2.0.3-sdk", command: "cat", ttyEnabled: true)
+        containerTemplate(name: "dotnet", image: "microsoft/dotnet:2.0.3-sdk", command: "cat", ttyEnabled: true),
+        containerTemplate(name: "helm", image: "dtzar/helm-kubectl", ttyEnabled: true, command: "cat")
 	],
 	//volume mount
 	volumes: [
@@ -36,12 +37,19 @@ podTemplate(
 		def dockerRegistry = props["dockerRegistry"]
 		def credential_registry=props["credential_registry"]
 		def image = props["image"]
-		def deployment = props["deployment"]
-		def service = props["service"]
-		def ingress = props["ingress"]
-		def selector_key = props["selector_key"]
-		def selector_val = props["selector_val"]
+		def baseDeployDir = props["baseDeployDir"]
+		def helmRepository = props["helmRepository"]
+		def helmChartname = props["helmChartname"]
+		def helmChartfile = "${baseDeployDir}/${helmChartname}-${tag}.tgz"
+		def releaseName = props["releaseName"]
 		def namespace = props["namespace"]
+
+
+		//def deployment = props["deployment"]
+		//def service = props["service"]
+		//def ingress = props["ingress"]
+		//def selector_key = props["selector_key"]
+		//def selector_val = props["selector_val"]
 
 		try {
 			stage("Build Microservice image") {
@@ -55,17 +63,20 @@ podTemplate(
 				}
 			}
 			stage( "Clean Up Existing Deployments" ) {
-				container("kubectl") {
-					sh "kubectl delete deployments -n ${namespace} --selector=${selector_key}=${selector_val}"
+				container("helm") {
+					try {
+						sh "helm delete ${releaseName} --purge"		
+					} catch(e) {
+						echo "Clear-up Error : " + e.getMessage()
+						echo "Continue process"	
+					}
 				}
 			}
 
 			stage( "Deploy to Cluster" ) {
-				container("kubectl") {
-					sh "kubectl apply -n ${namespace} -f ${deployment}"
-					sh "sleep 5"
-					sh "kubectl apply -n ${namespace} -f ${service}"
-                    sh "kubectl apply -n ${namespace} -f ${ingress}"
+				container("helm") {
+					echo "Install with chart file"
+					sh "helm install ${helmChartfile} --name ${releaseName}"
 				}
 			}
 		} catch(e) {
