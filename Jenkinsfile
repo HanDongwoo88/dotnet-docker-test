@@ -78,13 +78,14 @@ podTemplate(
             stage("Update Helm Chart") {
                 container("helm") {
                     git "https://github.com/HanDongwoo88/helm-charts.git"
-
+                    
+                    sh "pwd"
+                    sh "ls"
                     sh "helm package dotnet-helm"
                     sh "ls"
-                    sh "cp dotnet-helm-0.1.0.tgz /stable"
 
                     //git push
-                    
+
                 }
             }
 
