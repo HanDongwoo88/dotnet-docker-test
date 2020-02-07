@@ -63,7 +63,7 @@ podTemplate(
 				}
 			}
             //--- 무중단 배포를 위해 clean up 하지 않음
-			/*
+			
 			stage( "Clean Up Existing Deployments" ) {
 				container("helm") {
 					try {
@@ -75,16 +75,16 @@ podTemplate(
 					}
 				}
 			}
-            */
 			stage( "Deploy to Cluster" ) {
 				container("helm") {
                     // helm repo add
-					echo "Install with chart file"
+					echo "Add helm repo"
                     sh "helm repo add ${baseDeployDir} ${helmRepositoryURL}"
-                    sh "helm repo list"
 
-                    sh "helm delete ${releaseName}"	
+                    echo "Install with chart file"
+                    sh "helm install ${releaseName} ${helmChartfile} --namespace ${namespace}"	
 
+                    /*
                     boolean isExist = false
 					
 					//====== 이미 설치된 chart 인지 검사 =============
@@ -101,6 +101,7 @@ podTemplate(
 						 sh "helm install ${releaseName} ${helmChartfile} --namespace ${namespace}"	
                          //sh "helm install ${helmChartfile} --name ${releaseName}" (Helm v2)				
 					}
+                    */
 				}
 			}
 		} catch(e) {
