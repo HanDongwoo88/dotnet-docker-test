@@ -77,6 +77,8 @@ podTemplate(
             */
             stage("Update Helm Chart") {
                 container("helm") {
+                    echo "skip..."
+                    /*
                     git "https://github.com/HanDongwoo88/helm-charts.git"
                     
                     sh "helm init --client-only"
@@ -96,6 +98,24 @@ podTemplate(
                     sh "git add ./"
                     sh "git commit -m 'jenkins helm chart update commit'"
                     sh "git push origin master"
+
+                    */
+
+                    /*
+
+                    withCredentials([usernamePassword(credentialsId: 'ci-github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                        sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/my-org/my-repo.git')
+                    }
+                    */
+
+                    /*
+                    sshagent(credentials: ["406ef572-9598-45ee-8d39-9c9a227a9227"]) {
+                        def repository = "git@" + env.GIT_URL.replaceFirst(".+://", "").replaceFirst("/", ":")
+                        sh("git remote set-url origin $repository")
+                        sh("git tag --force build-${env.BRANCH_NAME}")
+                        sh("git push --force origin build-${env.BRANCH_NAME}")
+                    }
+                    */
                 }
             }
 
