@@ -79,6 +79,7 @@ podTemplate(
                 container("helm") {
                     git "https://github.com/HanDongwoo88/helm-charts.git"
                     
+                    sh "helm init --client-only"
                     sh "pwd"
                     sh "ls"
                     sh "helm package dotnet-helm"
