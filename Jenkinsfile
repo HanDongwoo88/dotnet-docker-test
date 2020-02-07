@@ -79,9 +79,12 @@ podTemplate(
                 container("helm") {
                     git "https://github.com/HanDongwoo88/helm-charts.git"
 
+                    sh "helm package dotnet-helm"
                     sh "ls"
-                    sh "cd ~/helm-charts"
-                    sh "ls"
+                    sh "cp dotnet-helm-0.1.0.tgz /stable"
+
+                    //git push
+                    
                 }
             }
 
