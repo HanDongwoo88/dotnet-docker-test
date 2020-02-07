@@ -7,7 +7,7 @@ podTemplate(
 		containerTemplate(name: "docker", image: "docker:rc", ttyEnabled: true, command: "cat"),
 		containerTemplate(name: "kubectl", image: "lachlanevenson/k8s-kubectl", command: "cat", ttyEnabled: true),
         containerTemplate(name: "dotnet", image: "microsoft/dotnet:2.0.3-sdk", command: "cat", ttyEnabled: true),
-        containerTemplate(name: "helm", image: "alpine/helm", ttyEnabled: true, command: "cat")
+        containerTemplate(name: "helm", image: "dtzar/helm-kubectl", ttyEnabled: true, command: "cat")
 	],
 	//volume mount
 	volumes: [
@@ -67,9 +67,9 @@ podTemplate(
 			stage( "Clean Up Existing Deployments" ) {
 				container("helm") {
 					try {
-                        sh "helm ls"
+                        sh "helm ls --all"
 						//sh "helm delete ${releaseName} --purge"	
-                        sh "helm uninstall ${releaseName}"	
+                        //sh "helm uninstall ${releaseName}"	
                         sh "helm delete ${releaseName}"	
 					} catch(e) {
 						echo "Clear-up Error : " + e.getMessage()
@@ -81,10 +81,10 @@ podTemplate(
 				container("helm") {
                     // helm repo add
 					echo "Add helm repo"
-                    sh "helm repo add ${baseDeployDir} ${helmRepositoryURL}"
+                    //sh "helm repo add ${baseDeployDir} ${helmRepositoryURL}"
 
                     echo "Install with chart file"
-                    sh "helm install ${releaseName} ${helmChartfile} --namespace ${namespace}"	
+                    //sh "helm install ${releaseName} ${helmChartfile} --namespace ${namespace}"	
 
                     /*
                     boolean isExist = false
