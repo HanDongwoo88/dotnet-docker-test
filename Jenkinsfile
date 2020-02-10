@@ -16,23 +16,10 @@ podTemplate(
 ) 
 {
 	node(label) {
-		stage("Get Source") {
-			git "https://github.com/HanDongwoo88/dotnet-docker-test.git"
-
-		}
-        try {
-            stage('Unit Test') {
-                container("dotnet") {
-                    sh "dotnet test './test/AspNetCoreInDocker.Web.Tests/AspNetCoreInDocker.Web.Tests.csproj' --results-directory './test_results' --logger 'trx;LogFileName=result.xml'"
-                    
-                }
-            }
-        } catch(e) {
-			currentBuild.result = "TEST FAILED"
-		}
-
-		//-- 환경변수 파일 읽어서 변수값 셋팅
+        //-- 환경변수 파일 읽어서 변수값 셋팅
 		def props = readProperties  file:"pipeline.properties"
+        def applicationRepositoryURL = props["applicationRepositoryURL"]
+        def helmChartTemplateURL = props["helmChartTemplateURL"]
 		def tag = props["version"]
 		def dockerRegistry = props["dockerRegistry"]
 		def credential_registry=props["credential_registry"]
@@ -46,11 +33,19 @@ podTemplate(
         def helmRepositoryURL = props["helmRepositoryURL"]
         def helmChartVersion =  props["helmChartVersion"]
 
-		//def deployment = props["deployment"]
-		//def service = props["service"]
-		//def ingress = props["ingress"]
-		//def selector_key = props["selector_key"]
-		//def selector_val = props["selector_val"]
+		stage("Get Source") {
+			git "${applicationRepositoryURL}"
+		}
+        try {
+            stage('Unit Test') {
+                container("dotnet") {
+                    sh "dotnet test './test/AspNetCoreInDocker.Web.Tests/AspNetCoreInDocker.Web.Tests.csproj' --results-directory './test_results' --logger 'trx;LogFileName=result.xml'"
+                    
+                }
+            }
+        } catch(e) {
+			currentBuild.result = "TEST FAILED"
+		}
 
 		try {
 			stage("Build Microservice image") {
@@ -78,72 +73,47 @@ podTemplate(
             */
             stage("Update Helm Chart") {
                 container("helm") {
-
-                    git "https://github.com/HanDongwoo88/helm-charts.git"
+                    git "${helmChartTemplateURL}"
                     
+                    echo "Helm Init"
                     sh "helm init --client-only"
-                    sh "pwd"
-                    sh "ls"
+
+                    echo "Helm packing > make tgz file"
                     sh "helm package dotnet-helm"
-                    sh "ls"
-                    //sh "cp dotnet-helm-${helmChartVersion}.tgz /"
                     
+                    echo "Make Helm index.yaml file"
                     sh "helm repo index ."
-                    sh "ls"
+                    
+                    echo "Start Local Helm Repository"
                     sh "helm serve --repo-path . &"
-                    sh "helm repo add localrepo http://127.0.0.1:8879/charts"
+
+                    echo "Add Helm Repository"
+                    sh "helm repo add localrepo ${helmRepositoryURL}"
                     sh "helm repo index ."
 
-
-
+                    echo "Update Helm Repository"
                     sh "helm repo update"
                     
+                    echo "confirm helm repository list"
                     sh "helm repo list"
-
-
                     sh "helm search dotnet"
-
-                    /*
-
-                    withCredentials([usernamePassword(credentialsId: 'ci-github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                        sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/my-org/my-repo.git')
-                    }
-                    */
-
-                    /*
-                    sshagent(credentials: ["406ef572-9598-45ee-8d39-9c9a227a9227"]) {
-                        def repository = "git@" + env.GIT_URL.replaceFirst(".+://", "").replaceFirst("/", ":")
-                        sh("git remote set-url origin $repository")
-                        sh("git tag --force build-${env.BRANCH_NAME}")
-                        sh("git push --force origin build-${env.BRANCH_NAME}")
-                    }
-                    */
                 }
             }
-
 			stage( "Deploy to Cluster" ) {
 				container("helm") {
-                    sh "helm init"	//tiller 설치
-
                     // version 확인
                     echo "Confirm Helm Version"
                     sh "helm version"
-                    // helm repo add
-					//echo "Add helm repo"
-                    //sh "helm repo add ${baseDeployDir} ${helmRepositoryURL}"
-                    sh "helm repo update"
-                    
-                    sh "helm repo list"
-
-                    sh "helm search dotnet"
                     
                     boolean isExist = false
 					
-					//====== 이미 설치된 chart 인지 검사 =============
+					//====== 이미 설치된 helm chart 인지 검사 =============
 					String out = sh script: "helm ls -q --namespace ${namespace}", returnStdout: true
 					if(out.contains("${releaseName}")) isExist = true
 					//===========================				
 					
+                    // 설치되지 않은 경우, helm install
+                    // 설치된 경우, helm upgrade 
 					if (isExist) {
 						echo "Already installed. I will upgrade it with chart file."
                         sh "helm ls -q --namespace default"	
@@ -151,6 +121,8 @@ podTemplate(
 					} else {
 						echo "Install with chart file !"
                         sh "helm install ${helmChartfile} --name ${releaseName} --namespace ${namespace}"
+
+                        // helm version 3부터는 install flag가 변경.. --namespace flag를 더이상 사용하지 않음
 						//sh "helm install ${releaseName} ${helmChartfile} --namespace ${namespace}" (Helm v3)
                         //sh "helm install ${helmChartfile} --name ${releaseName}" (Helm v2)				
 					}
