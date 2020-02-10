@@ -44,6 +44,7 @@ podTemplate(
 		def releaseName = props["releaseName"]
 		def namespace = props["namespace"]
         def helmRepositoryURL = props["helmRepositoryURL"]
+        def helmChartVersion =  props["helmChartVersion"]
 
 		//def deployment = props["deployment"]
 		//def service = props["service"]
@@ -77,9 +78,7 @@ podTemplate(
             */
             stage("Update Helm Chart") {
                 container("helm") {
-                    /*
-                    echo "skip..."
-                    
+
                     git "https://github.com/HanDongwoo88/helm-charts.git"
                     
                     sh "helm init --client-only"
@@ -87,23 +86,13 @@ podTemplate(
                     sh "ls"
                     sh "helm package dotnet-helm"
                     sh "ls"
-                    sh "cp dotnet-helm-0.1.0.tgz /stable"
+                    //sh "cp dotnet-helm-${helmChartVersion}.tgz /"
                     
-                    sh "cd stable"
-                    sh "ls"
                     sh "helm repo index ."
 
-                    //git push
-                    sh "git config --global user.email jtlas@naver.com"
-                    sh "git config --global user.name HanDongwoo88"
-                    sh "git add ./"
-                    sh "git commit -m 'jenkins helm chart update commit'"
-                  
-                    withCredentials([usernamePassword(credentialsId: 'ci_github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                        
-                        sh "git push origin master"
-                    }
-
+                    sh "helm repo update"
+                    
+                    sh "helm repo list"
                     /*
 
                     withCredentials([usernamePassword(credentialsId: 'ci-github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
@@ -130,8 +119,8 @@ podTemplate(
                     echo "Confirm Helm Version"
                     sh "helm version"
                     // helm repo add
-					echo "Add helm repo"
-                    sh "helm repo add ${baseDeployDir} ${helmRepositoryURL}"
+					//echo "Add helm repo"
+                    //sh "helm repo add ${baseDeployDir} ${helmRepositoryURL}"
                     sh "helm repo update"
                     
                     sh "helm repo list"
