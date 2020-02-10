@@ -89,6 +89,10 @@ podTemplate(
                     //sh "cp dotnet-helm-${helmChartVersion}.tgz /"
                     
                     sh "helm repo index ."
+                    sh "ls"
+                    sh "helm serve --repo-path . &"
+                    sh "helm repo add localrepo http://127.0.0.1:8879/charts"
+                    sh "helm repo index ."
 
                     sh "helm repo update"
                     
