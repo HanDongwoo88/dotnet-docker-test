@@ -34,7 +34,7 @@ podTemplate(
         def helmChartVersion =  props["helmChartVersion"]
 
 		stage("Get Source") {
-			git "${applicationRepositoryURL}"
+			git "https://github.com/HanDongwoo88/dotnet-docker-test.git"
 		}
         try {
             stage('Unit Test') {
