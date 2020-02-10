@@ -134,6 +134,8 @@ podTemplate(
                     sh "helm repo add ${baseDeployDir} ${helmRepositoryURL}"
                     sh "helm repo update"
                     
+                    sh "helm repo list"
+
                     boolean isExist = false
 					
 					//====== 이미 설치된 chart 인지 검사 =============
