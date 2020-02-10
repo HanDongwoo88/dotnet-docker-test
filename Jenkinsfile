@@ -97,10 +97,10 @@ podTemplate(
                     sh "git config --global user.name HanDongwoo88"
                     sh "git add ./"
                     sh "git commit -m 'jenkins helm chart update commit'"
-                   
+                  
                     withCredentials([usernamePassword(credentialsId: 'ci_github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         
-                        sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@<REPO> --tags')
+                        sh "git push origin master"
                     }
 
                     /*
