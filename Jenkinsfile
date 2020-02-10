@@ -94,9 +94,15 @@ podTemplate(
                     sh "helm repo add localrepo http://127.0.0.1:8879/charts"
                     sh "helm repo index ."
 
+
+
                     sh "helm repo update"
                     
                     sh "helm repo list"
+
+
+                    sh "helm search dotnet"
+
                     /*
 
                     withCredentials([usernamePassword(credentialsId: 'ci-github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
@@ -129,6 +135,8 @@ podTemplate(
                     
                     sh "helm repo list"
 
+                    sh "helm search dotnet"
+                    
                     boolean isExist = false
 					
 					//====== 이미 설치된 chart 인지 검사 =============
