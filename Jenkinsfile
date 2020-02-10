@@ -146,12 +146,4 @@ podTemplate(
 			currentBuild.result = "FAILED"
 		} 
 	}
-    post {
-        always {
-            node('master') {
-                step ([$class: 'MSTestPublisher', testResultsFile:"**/test_results/result.xml", failOnError: true, keepLongStdio: true])
-            }
-        }
-    }
-
 }
