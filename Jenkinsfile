@@ -77,6 +77,7 @@ podTemplate(
             */
             stage("Update Helm Chart") {
                 container("helm") {
+                    /*
                     echo "skip..."
                     
                     git "https://github.com/HanDongwoo88/helm-charts.git"
