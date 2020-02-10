@@ -16,10 +16,23 @@ podTemplate(
 ) 
 {
 	node(label) {
-        //-- 환경변수 파일 읽어서 변수값 셋팅
+		stage("Get Source") {
+			git "https://github.com/HanDongwoo88/dotnet-docker-test.git"
+
+		}
+        try {
+            stage('Unit Test') {
+                container("dotnet") {
+                    sh "dotnet test './test/AspNetCoreInDocker.Web.Tests/AspNetCoreInDocker.Web.Tests.csproj' --results-directory './test_results' --logger 'trx;LogFileName=result.xml'"
+                    
+                }
+            }
+        } catch(e) {
+			currentBuild.result = "TEST FAILED"
+		}
+
+		//-- 환경변수 파일 읽어서 변수값 셋팅
 		def props = readProperties  file:"pipeline.properties"
-        def applicationRepositoryURL = props["applicationRepositoryURL"]
-        def helmChartTemplateURL = props["helmChartTemplateURL"]
 		def tag = props["version"]
 		def dockerRegistry = props["dockerRegistry"]
 		def credential_registry=props["credential_registry"]
@@ -33,19 +46,11 @@ podTemplate(
         def helmRepositoryURL = props["helmRepositoryURL"]
         def helmChartVersion =  props["helmChartVersion"]
 
-		stage("Get Source") {
-			git "https://github.com/HanDongwoo88/dotnet-docker-test.git"
-		}
-        try {
-            stage('Unit Test') {
-                container("dotnet") {
-                    sh "dotnet test './test/AspNetCoreInDocker.Web.Tests/AspNetCoreInDocker.Web.Tests.csproj' --results-directory './test_results' --logger 'trx;LogFileName=result.xml'"
-                    
-                }
-            }
-        } catch(e) {
-			currentBuild.result = "TEST FAILED"
-		}
+		//def deployment = props["deployment"]
+		//def service = props["service"]
+		//def ingress = props["ingress"]
+		//def selector_key = props["selector_key"]
+		//def selector_val = props["selector_val"]
 
 		try {
 			stage("Build Microservice image") {
@@ -73,6 +78,7 @@ podTemplate(
             */
             stage("Update Helm Chart") {
                 container("helm") {
+
                     git "https://github.com/HanDongwoo88/helm-charts.git"
                     
                     echo "Helm Init"
@@ -97,23 +103,33 @@ podTemplate(
                     echo "confirm helm repository list"
                     sh "helm repo list"
                     sh "helm search dotnet"
+
                 }
             }
+
 			stage( "Deploy to Cluster" ) {
 				container("helm") {
+                    sh "helm init"	//tiller 설치
+
                     // version 확인
                     echo "Confirm Helm Version"
                     sh "helm version"
+                    // helm repo add
+					//echo "Add helm repo"
+                    //sh "helm repo add ${baseDeployDir} ${helmRepositoryURL}"
+                    sh "helm repo update"
+                    
+                    sh "helm repo list"
+
+                    sh "helm search dotnet"
                     
                     boolean isExist = false
 					
-					//====== 이미 설치된 helm chart 인지 검사 =============
+					//====== 이미 설치된 chart 인지 검사 =============
 					String out = sh script: "helm ls -q --namespace ${namespace}", returnStdout: true
 					if(out.contains("${releaseName}")) isExist = true
 					//===========================				
 					
-                    // 설치되지 않은 경우, helm install
-                    // 설치된 경우, helm upgrade 
 					if (isExist) {
 						echo "Already installed. I will upgrade it with chart file."
                         sh "helm ls -q --namespace default"	
@@ -121,8 +137,6 @@ podTemplate(
 					} else {
 						echo "Install with chart file !"
                         sh "helm install ${helmChartfile} --name ${releaseName} --namespace ${namespace}"
-
-                        // helm version 3부터는 install flag가 변경.. --namespace flag를 더이상 사용하지 않음
 						//sh "helm install ${releaseName} ${helmChartfile} --namespace ${namespace}" (Helm v3)
                         //sh "helm install ${helmChartfile} --name ${releaseName}" (Helm v2)				
 					}
