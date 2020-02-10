@@ -73,7 +73,7 @@ podTemplate(
             */
             stage("Update Helm Chart") {
                 container("helm") {
-                    git "${helmChartTemplateURL}"
+                    git "https://github.com/HanDongwoo88/helm-charts.git"
                     
                     echo "Helm Init"
                     sh "helm init --client-only"
