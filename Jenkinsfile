@@ -31,9 +31,9 @@ podTemplate(
 			currentBuild.result = "TEST FAILED"
 		} finally {
             sh "pwd"
+            sh "cd test/AspNetCoreInDocker.Web.Tests/test_results"
             sh "ls -al"
-            sh "cat test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
-            sh "chmod o+x test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
+            
             step ([$class: 'MSTestPublisher', testResultsFile:"**/test_results/result.xml", failOnError: true, keepLongStdio: true])
         }
 
