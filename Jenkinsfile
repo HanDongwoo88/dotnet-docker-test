@@ -53,9 +53,8 @@ podTemplate(
             echo "###################test publish###################"
             sh "ls test/AspNetCoreInDocker.Web.Tests/test_results -al"
             //step ([$class: 'MSTestPublisher', testResultsFile:"**/test_results/result.xml", failOnError: true, keepLongStdio: true])
-            //junit '**/test_results/result.xml'
-            step([$class: 'XUnitPublisher',
-                tools: [[$class: 'XUnitPublisher', pattern: '**/test_results/result.xml']]])
+            junit '**/test_results/result.xml'
+            
         }
 
 		//-- 환경변수 파일 읽어서 변수값 셋팅
