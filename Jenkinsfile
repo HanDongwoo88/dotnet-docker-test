@@ -24,7 +24,10 @@ podTemplate(
             stage('Unit Test') {
                 container("dotnet") {
                     sh "dotnet test './test/AspNetCoreInDocker.Web.Tests/AspNetCoreInDocker.Web.Tests.csproj' --results-directory './test_results' --logger 'trx;LogFileName=result.xml'"
-                    
+                     sh "id"
+                     sh "id jenkins"
+
+                     sh "chmod -R 777 test"
                 }
             }
         } catch(e) {
@@ -35,8 +38,6 @@ podTemplate(
             sh "ls test/AspNetCoreInDocker.Web.Tests/test_results -al"
             sh "id"
             sh "id jenkins"
-            sh "who am i"
-            sh "whoami"
 
             //sh "chmod -R 777 test"
            
