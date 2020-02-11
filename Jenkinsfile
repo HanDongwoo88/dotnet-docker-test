@@ -32,6 +32,7 @@ podTemplate(
 		} finally {
             sh "pwd"
             sh "ls"
+            sh "cat test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
             step ([$class: 'MSTestPublisher', testResultsFile:"**/test_results/result.xml", failOnError: true, keepLongStdio: true])
         }
 
