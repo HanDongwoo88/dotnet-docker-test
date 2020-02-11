@@ -29,8 +29,11 @@ podTemplate(
                     sh "ls"
                     sh "ls test/AspNetCoreInDocker.Web.Tests/test_results -al"
 
-                    sh "chattr -i test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
-                    sh "chmod 777 test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
+                    sh "sudo chattr -i test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
+                    sh "sudo chown 1000:1000 test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
+                    sh "sudo chmod 777 test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
+
+                    sh "ls test/AspNetCoreInDocker.Web.Tests/test_results -al"
                 }
             }
         } catch(e) {
@@ -45,9 +48,10 @@ podTemplate(
             //sh "chmod -R 777 test"
            
             //sh "chattr -i test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
-            sh "cat test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
+            //sh "chown jenkins test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
             //sh "chmod 777 test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
-
+            echo "###################test publish###################"
+            sh "ls test/AspNetCoreInDocker.Web.Tests/test_results -al"
             step ([$class: 'MSTestPublisher', testResultsFile:"**/test_results/result.xml", failOnError: true, keepLongStdio: true])
         }
 
