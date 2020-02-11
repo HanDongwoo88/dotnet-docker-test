@@ -46,6 +46,10 @@ podTemplate(
                         failOnError: true
                     ]]
                 ])
+
+            if (currentBuild.result.equals("FAILURE")) {
+                throw "Test results did not pass thresholds"
+            }
         }
 
 		//-- 환경변수 파일 읽어서 변수값 셋팅
