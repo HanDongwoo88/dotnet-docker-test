@@ -53,7 +53,7 @@ podTemplate(
             echo "###################test publish###################"
             sh "ls test/AspNetCoreInDocker.Web.Tests/test_results -al"
             //step ([$class: 'MSTestPublisher', testResultsFile:"**/test_results/result.xml", failOnError: true, keepLongStdio: true])
-            xunit 
+            //junit '**/test_results/result.xml'
             step([$class: 'XUnitPublisher',
                 tools: [[$class: 'XUnitPublisher', pattern: '**/test_results/result.xml']]])
         }
