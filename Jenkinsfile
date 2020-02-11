@@ -33,7 +33,7 @@ podTemplate(
             sh "pwd"
             sh "ls"
             sh "ls test/AspNetCoreInDocker.Web.Tests/test_results -al"
-
+            sh "chmod -R a+w \$PWD"
             //sh "chmod -R 777 test"
            
             //sh "chattr -i test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
