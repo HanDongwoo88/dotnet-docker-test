@@ -34,7 +34,8 @@ podTemplate(
             sh "ls"
             sh "ls test/AspNetCoreInDocker.Web.Tests/test_results -al"
 
-            sh "chmod -R 777 test"
+            sh "lsattr test/AspNetCoreInDocker.Web.Tests/test_results"
+            //sh "chmod -R 777 test"
            
             //sh "chattr -i test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
             //sh "chown jenkins test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
