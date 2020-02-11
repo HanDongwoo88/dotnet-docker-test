@@ -24,13 +24,13 @@ podTemplate(
             stage('Unit Test') {
                 container("dotnet") {
                     sh "dotnet test './test/AspNetCoreInDocker.Web.Tests/AspNetCoreInDocker.Web.Tests.csproj' --results-directory './test_results' --logger 'trx;LogFileName=result.xml'"
-                    
+                    step ([$class: 'MSTestPublisher', testResultsFile:"**/test_results/result.xml", failOnError: true, keepLongStdio: true])
                 }
             }
         } catch(e) {
 			currentBuild.result = "TEST FAILED"
 		} finally {
-            step ([$class: 'MSTestPublisher', testResultsFile:"**/test_results/result.xml", failOnError: true, keepLongStdio: true])
+            //step ([$class: 'MSTestPublisher', testResultsFile:"**/test_results/result.xml", failOnError: true, keepLongStdio: true])
         }
 
 		//-- 환경변수 파일 읽어서 변수값 셋팅
