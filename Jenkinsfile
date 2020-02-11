@@ -33,7 +33,7 @@ podTemplate(
             step([
                     $class: 'XUnitBuilder', testTimeMargin: '3000', thresholdMode: 1,
                     thresholds: [
-                        [$class: 'FailedThreshold', failureNewThreshold: '', failureThreshold: '0', unstableNewThreshold: '', unstableThreshold: ''],
+                        [$class: 'FailedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: ''],
                         [$class: 'SkippedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: '']
                     ],
                     tools: [[
@@ -42,7 +42,7 @@ podTemplate(
                         failIfNotNew: true,
                         pattern: '**/test_results/result.xml',
                         skipNoTestFiles: false,
-                        stopProcessingIfError: false
+                        stopProcessingIfError: true
                     ]]
                 ])
         }
