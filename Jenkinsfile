@@ -29,9 +29,9 @@ podTemplate(
                     sh "ls"
                     sh "ls test/AspNetCoreInDocker.Web.Tests/test_results -al"
 
-                    sh "sudo chattr -i test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
-                    sh "sudo chown 1000:1000 test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
-                    sh "sudo chmod 777 test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
+                    sh "chattr -i test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
+                    sh "chown 1000:1000 test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
+                    sh "chmod 777 test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
 
                     sh "ls test/AspNetCoreInDocker.Web.Tests/test_results -al"
                 }
