@@ -32,7 +32,7 @@ podTemplate(
 		} finally {
             sh "pwd"
             sh "ls -al"
-            sh "chmod o+x /test/AspNetCoreInDocker.Web.Tests/test_results/"
+            sh "chmod o+x /test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
             sh "cat test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
             step ([$class: 'MSTestPublisher', testResultsFile:"**/test_results/result.xml", failOnError: true, keepLongStdio: true])
         }
