@@ -42,7 +42,8 @@ podTemplate(
                         failIfNotNew: true,
                         pattern: '**/test_results/result.xml',
                         skipNoTestFiles: false,
-                        stopProcessingIfError: true
+                        stopProcessingIfError: true,
+                        failOnError: true
                     ]]
                 ])
         }
