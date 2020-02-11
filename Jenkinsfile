@@ -53,8 +53,23 @@ podTemplate(
             echo "###################test publish###################"
             sh "ls test/AspNetCoreInDocker.Web.Tests/test_results -al"
             //step ([$class: 'MSTestPublisher', testResultsFile:"**/test_results/result.xml", failOnError: true, keepLongStdio: true])
-            junit '**/test_results/result.xml'
+            //junit '**/test_results/result.xml'
             
+            step([
+                    $class: 'XUnitBuilder', testTimeMargin: '3000', thresholdMode: 1,
+                    thresholds: [
+                        [$class: 'FailedThreshold', failureNewThreshold: '', failureThreshold: '0', unstableNewThreshold: '', unstableThreshold: ''],
+                        [$class: 'SkippedThreshold', failureNewThreshold: '', failureThreshold: '', unstableNewThreshold: '', unstableThreshold: '']
+                    ],
+                    tools: [[
+                        $class: 'MSTestJunitHudsonTestType',
+                        deleteOutputFiles: true,
+                        failIfNotNew: true,
+                        pattern: '**/test_results/result.xml',
+                        skipNoTestFiles: false,
+                        stopProcessingIfError: true
+                    ]]
+                ])
         }
 
 		//-- 환경변수 파일 읽어서 변수값 셋팅
