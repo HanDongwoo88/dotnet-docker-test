@@ -24,39 +24,12 @@ podTemplate(
             stage('Unit Test') {
                 container("dotnet") {
                     sh "dotnet test './test/AspNetCoreInDocker.Web.Tests/AspNetCoreInDocker.Web.Tests.csproj' --results-directory './test_results' --logger 'trx;LogFileName=result.xml'"
-                    /*
-                    sh "id"
-                    sh "pwd"
-                    sh "ls"
-                    sh "ls test/AspNetCoreInDocker.Web.Tests/test_results -al"
-
-                    sh "chattr -i test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
-                    sh "chown 1000:1000 test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
-                    sh "chmod 777 test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
-
-                    sh "ls test/AspNetCoreInDocker.Web.Tests/test_results -al"
-                    */
                 }
             }
         } catch(e) {
 			currentBuild.result = "TEST FAILED"
 		} finally {
-            //sh "pwd"
-            //sh "ls"
-            //sh "ls test/AspNetCoreInDocker.Web.Tests/test_results -al"
-            //sh "id"
-            //sh "id jenkins"
-
-            //sh "chmod -R 777 test"
-           
-            //sh "chattr -i test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
-            //sh "chown jenkins test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
-            //sh "chmod 777 test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
             echo "###################test publish###################"
-            sh "ls test/AspNetCoreInDocker.Web.Tests/test_results -al"
-            //step ([$class: 'MSTestPublisher', testResultsFile:"**/test_results/result.xml", failOnError: true, keepLongStdio: true])
-            //junit '**/test_results/result.xml'
-            
             step([
                     $class: 'XUnitBuilder', testTimeMargin: '3000', thresholdMode: 1,
                     thresholds: [
