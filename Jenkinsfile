@@ -30,23 +30,22 @@ podTemplate(
                     sh "ls test/AspNetCoreInDocker.Web.Tests/test_results -al"
 
                     sh "chattr -i test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
-                    sh "chown jenkins test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
                     sh "chmod 777 test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
                 }
             }
         } catch(e) {
 			currentBuild.result = "TEST FAILED"
 		} finally {
-            sh "pwd"
-            sh "ls"
-            sh "ls test/AspNetCoreInDocker.Web.Tests/test_results -al"
-            sh "id"
-            sh "id jenkins"
+            //sh "pwd"
+            //sh "ls"
+            //sh "ls test/AspNetCoreInDocker.Web.Tests/test_results -al"
+            //sh "id"
+            //sh "id jenkins"
 
             //sh "chmod -R 777 test"
            
             //sh "chattr -i test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
-            //sh "chown jenkins test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
+            sh "cat test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
             //sh "chmod 777 test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
 
             step ([$class: 'MSTestPublisher', testResultsFile:"**/test_results/result.xml", failOnError: true, keepLongStdio: true])
