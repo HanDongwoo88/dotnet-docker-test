@@ -52,7 +52,10 @@ podTemplate(
             //sh "chmod 777 test/AspNetCoreInDocker.Web.Tests/test_results/result.xml"
             echo "###################test publish###################"
             sh "ls test/AspNetCoreInDocker.Web.Tests/test_results -al"
-            step ([$class: 'MSTestPublisher', testResultsFile:"**/test/AspNetCoreInDocker.Web.Tests/test_results/*.xml", failOnError: true, keepLongStdio: true])
+            //step ([$class: 'MSTestPublisher', testResultsFile:"**/test_results/result.xml", failOnError: true, keepLongStdio: true])
+            step([$class: 'XUnitBuilder',
+                thresholds: [[$class: 'FailedThreshold', unstableThreshold: '1']],
+                tools: [[$class: 'JUnitType', pattern: '**/test_results/result.xml']]])
         }
 
 		//-- 환경변수 파일 읽어서 변수값 셋팅
