@@ -144,6 +144,10 @@ podTemplate(
 			}
 		} catch(e) {
 			currentBuild.result = "FAILED"
-		} 
+		}
+
+        stage("test11") {
+            step ([$class: 'MSTestPublisher', testResultsFile:"**/test_results/result.xml", failOnError: true, keepLongStdio: true])
+        } 
 	}
 }
