@@ -29,7 +29,9 @@ podTemplate(
             }
         } catch(e) {
 			currentBuild.result = "TEST FAILED"
-		}
+		} finally {
+            step ([$class: 'MSTestPublisher', testResultsFile:"**/test_results/result.xml", failOnError: true, keepLongStdio: true])
+        }
 
 		//-- 환경변수 파일 읽어서 변수값 셋팅
 		def props = readProperties  file:"pipeline.properties"
@@ -145,9 +147,5 @@ podTemplate(
 		} catch(e) {
 			currentBuild.result = "FAILED"
 		}
-
-        stage("test11") {
-            step ([$class: 'MSTestPublisher', testResultsFile:"**/test_results/result.xml", failOnError: true, keepLongStdio: true])
-        } 
 	}
 }
