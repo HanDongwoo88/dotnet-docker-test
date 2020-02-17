@@ -12,7 +12,7 @@ podTemplate(
 	//volume mount
 	volumes: [
 		hostPathVolume(hostPath: "/var/run/docker.sock", mountPath: "/var/run/docker.sock")
-        persistentVolumeClaim(mountPath: '/home/jenkins/agent', claimName: 'msa1', readOnly: false) //Gradle 캐시를 저장할 EBS 를 마운트한다.
+        persistentVolumeClaim(claimName: 'jenkins-pv', mountPath: '/home/jenkins/agent')
 	]
 ) 
 {
