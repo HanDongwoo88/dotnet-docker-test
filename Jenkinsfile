@@ -99,7 +99,7 @@ podTemplate(
                     git "https://github.com/HanDongwoo88/helm-charts.git"
 
                     echo "Helm Init"
-                    sh "helm init --upgrade --wait --force-upgrade"
+                    sh "helm init --client-only --stable-repo-url https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts"
 
                     echo "Helm packing > make tgz file"
                     sh "helm package dotnet-helm"
@@ -126,7 +126,7 @@ podTemplate(
 
 			stage( "Deploy to Cluster" ) {
 				container("helm") {
-                    sh "helm init --upgrade --wait --force-upgrade"	//tiller 설치
+                    sh "helm init --client-only --stable-repo-url https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts"	//tiller 설치
 
                     // version 확인
                     echo "Confirm Helm Version"
