@@ -97,11 +97,9 @@ podTemplate(
                 container("helm") {
 
                     git "https://github.com/HanDongwoo88/helm-charts.git"
-                    
-                    sh "cat /root/.helm/repository/repositories.yaml"
 
                     echo "Helm Init"
-                    sh "helm init --client-only"
+                    sh "helm init"
 
                     echo "Helm packing > make tgz file"
                     sh "helm package dotnet-helm"
