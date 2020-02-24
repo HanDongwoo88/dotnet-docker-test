@@ -1,5 +1,5 @@
 # Build image
-FROM microsoft/dotnet:2.0.3-sdk AS builder
+FROM microsoft/dotnet AS builder
 WORKDIR /sln
 
 COPY ./aspnetcore-in-docker.sln ./NuGet.config  ./
@@ -20,7 +20,7 @@ RUN dotnet publish "./src/AspNetCoreInDocker.Web/AspNetCoreInDocker.Web.csproj" 
 
 #commit test
 #App image
-FROM microsoft/aspnetcore:2.0.3
+FROM microsoft/aspnetcore
 WORKDIR /app
 COPY --from=builder /sln/dist .
 ENTRYPOINT ["dotnet", "AspNetCoreInDocker.Web.dll"]
