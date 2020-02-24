@@ -98,6 +98,8 @@ podTemplate(
 
                     git "https://github.com/HanDongwoo88/helm-charts.git"
                     
+                    sh "cat /root/.helm/repository/repositories.yaml"
+
                     echo "Helm Init"
                     sh "helm init --client-only"
 
