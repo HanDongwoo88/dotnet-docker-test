@@ -98,6 +98,8 @@ podTemplate(
 
                     git "https://github.com/HanDongwoo88/helm-charts.git"
 
+                    // helm stable repository url접근 에러로 인한 미러사이트로 url변경
+                    // Error: error initializing: Looks like "https://kubernetes-charts.storage.googleapis.com" is not a valid chart repository or cannot be reached: Get https://kubernetes-charts.storage.googleapis.com/index.yaml: x509: certificate has expired or is not yet valid
                     echo "Helm Init"
                     sh "helm init --client-only --stable-repo-url https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts"
 
