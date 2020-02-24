@@ -80,6 +80,13 @@ podTemplate(
 					}
 				}
 			}
+
+            stage("Image Vulnerability Scanning") {
+				container("docker"){
+					aquaMicroscanner imageName: "${image}:latest", notCompliesCmd: "", onDisallowed: "ignore", outputFormat: "html"
+				}
+			}
+
             //--- 무중단 배포를 위해 clean up 하지 않음
 			/*
 			stage( "Clean Up Existing Deployments" ) {
