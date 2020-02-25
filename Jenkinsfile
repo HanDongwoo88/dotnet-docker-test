@@ -70,6 +70,11 @@ podTemplate(
 		//def selector_val = props["selector_val"]
 
 		try {
+            stage("Image Vulnerability Scanning") {
+				container("docker"){
+					aquaMicroscanner imageName: "${image}:latest", notCompliesCmd: "", onDisallowed: "ignore", outputFormat: "html"
+				}
+			}
 			stage("Build Microservice image") {
 				container("docker") {
 					docker.withRegistry("${dockerRegistry}", "${credential_registry}") {
@@ -80,13 +85,6 @@ podTemplate(
 					}
 				}
 			}
-
-            stage("Image Vulnerability Scanning") {
-				container("docker"){
-					aquaMicroscanner imageName: "${image}:latest", notCompliesCmd: "", onDisallowed: "ignore", outputFormat: "html"
-				}
-			}
-
             //--- 무중단 배포를 위해 clean up 하지 않음
 			/*
 			stage( "Clean Up Existing Deployments" ) {
@@ -102,7 +100,6 @@ podTemplate(
             */
             stage("Update Helm Chart") {
                 container("helm") {
-
                     git "https://github.com/HanDongwoo88/helm-charts.git"
 
                     // helm stable repository url접근 에러로 인한 미러사이트로 url변경
@@ -129,10 +126,8 @@ podTemplate(
                     echo "confirm helm repository list"
                     sh "helm repo list"
                     sh "helm search dotnet"
-
                 }
             }
-
 			stage( "Deploy to Cluster" ) {
 				container("helm") {
                     sh "helm init --client-only --stable-repo-url https://kubernetes.oss-cn-hangzhou.aliyuncs.com/charts"	//tiller 설치
