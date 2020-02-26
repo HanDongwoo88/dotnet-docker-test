@@ -12,7 +12,6 @@ podTemplate(
 	//volume mount
 	volumes: [
 		hostPathVolume(hostPath: "/var/run/docker.sock", mountPath: "/var/run/docker.sock")
-        //persistentVolumeClaim(claimName: 'jenkins-pv', mountPath: '/home/jenkins/agent')
 	]
 ) 
 {
