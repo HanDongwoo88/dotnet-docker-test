@@ -69,11 +69,13 @@ podTemplate(
 		//def selector_val = props["selector_val"]
 
 		try {
+			/*
             stage("Image Vulnerability Scanning") {
 				container("docker"){
 					aquaMicroscanner imageName: "${image}:latest", notCompliesCmd: "", onDisallowed: "ignore", outputFormat: "html"
 				}
 			}
+			*/
 			stage("Build Microservice image") {
 				container("docker") {
 					docker.withRegistry("${dockerRegistry}", "${credential_registry}") {
