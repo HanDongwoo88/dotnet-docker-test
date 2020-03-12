@@ -116,8 +116,8 @@ podTemplate(
                     sh "helm serve --repo-path . &"
 
                     echo "Add Helm Repository"
-                    sh "helm repo add localrepo ${helmRepositoryURL}"
-                    sh "helm repo index ."
+                    //sh "helm repo add localrepo ${helmRepositoryURL}"
+                    //sh "helm repo index ."
 
                     echo "Update Helm Repository"
                     sh "helm repo update"
